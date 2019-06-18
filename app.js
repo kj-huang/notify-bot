@@ -6,11 +6,7 @@ let app = express();
 let moment = require("moment-timezone");
 const repoHelper = require("./dao/repo");
 
-
-
-
-
-cron.schedule('35 22 * * *',async () => {
+cron.schedule('00 9 * * *',async () => {
   try{
   let scheduleDates = await repoHelper.readDateList();
 
@@ -19,11 +15,11 @@ cron.schedule('35 22 * * *',async () => {
   
       let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
       if(now == (scheduleDates[0] - 5)){
-        lineHelper.pushMarketingMsgTo('Ud71f40b250f1646956f5a46f4e996323');
+        lineHelper.pushMarketingMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       } else if(now == (scheduleDates[0] - 3)){
-        lineHelper.pushMsgTo('Ud71f40b250f1646956f5a46f4e996323');
+        lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       } else if(now === scheduleDates[0] ){
-        lineHelper.pushActivityMsgTo('Ud71f40b250f1646956f5a46f4e996323');
+        lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
   
         //housekeeping
         scheduleDates.shift();
@@ -38,21 +34,21 @@ cron.schedule('35 22 * * *',async () => {
   }
 });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 
 module.exports = app;
