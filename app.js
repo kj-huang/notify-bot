@@ -6,7 +6,7 @@ let app = express();
 let moment = require("moment-timezone");
 const repoHelper = require("./dao/repo");
 
-cron.schedule('00 9 * * *',async () => {
+cron.schedule('0 9 * * *',async () => {
   try{
   let scheduleDates = await repoHelper.readDateList();
 
