@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 cron.schedule('36 1 * * *',async () => {
   console.log("notify at 09:36 in Taiwan")
   try{
-  let scheduleDates = await repoHelper.readDateList();
+  let scheduleDates = await readDateList();
 
     if(scheduleDates !== ""){
       scheduleDates = scheduleDates.split("\n");
@@ -29,7 +29,7 @@ cron.schedule('36 1 * * *',async () => {
         //housekeeping
         scheduleDates.shift();
         //write back to file
-        repoHelper.updateDateList(scheduleDates);
+        await updateDateList(scheduleDates);
       }
     } else {
       console.log("No schedule Date!");
@@ -38,6 +38,16 @@ cron.schedule('36 1 * * *',async () => {
     console.log(e);
   }
 });
+
+async function readDateList(){
+  let data = await fs.readFileSync('./ScheduleDate.txt', 'utf-8');
+  return data;
+}
+
+async function updateDateList(data){
+  let str = data.join("\n");
+  await fs.writeFileSync('./ScheduleDate.txt', str);
+}
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
