@@ -5,13 +5,12 @@ const cron = require('node-cron');
 const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
-const repoHelper = require("./dao/repo");
+let scheduleDates = require('./ScheduleDate.txt');
 
-cron.schedule('47 1 * * *',async () => {
-  console.log("notify at 09:47 in Taiwan")
+cron.schedule('53 1 * * *',async () => {
+  console.log("notify at 09:53 in Taiwan")
   try{
-  let scheduleDates = await readDateList();
-
+  // let scheduleDates = await readDateList();
     if(scheduleDates !== ""){
       scheduleDates = scheduleDates.split("\n");
   
