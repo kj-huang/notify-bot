@@ -7,10 +7,10 @@ let app = express();
 let moment = require("moment-timezone");
 const currentPath = process.cwd();
 
-console.log(currentPath)
+console.log("dir: " + currentPath)
 
-cron.schedule('17 2 * * *',async () => {
-  console.log("notify at 10:17 in Taiwan")
+cron.schedule('20 2 * * *',async () => {
+  console.log("notify at 10:20 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
@@ -39,13 +39,13 @@ cron.schedule('17 2 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync(currentPath + '/ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync('ScheduleDate.txt', 'utf-8');
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync(currentPath + '/app/ScheduleDate.txt', str);
+  await fs.writeFileSync('ScheduleDate.txt', str);
 }
 
 // // catch 404 and forward to error handler
