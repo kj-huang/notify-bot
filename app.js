@@ -10,8 +10,8 @@ const repoHelper = require("./dao/repo");
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-cron.schedule('20 1 * * *',async () => {
-  console.log("notify at 09:20 in Taiwan")
+cron.schedule('25 1 * * *',async () => {
+  console.log("notify at 09:25 in Taiwan")
   try{
   let scheduleDates = await repoHelper.readDateList();
 
