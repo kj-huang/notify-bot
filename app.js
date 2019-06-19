@@ -6,8 +6,8 @@ const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
 
-cron.schedule('1 2 * * *',async () => {
-  console.log("notify at 10:01 in Taiwan")
+cron.schedule('3 2 * * *',async () => {
+  console.log("notify at 10:03 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
