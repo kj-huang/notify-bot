@@ -5,9 +5,12 @@ const cron = require('node-cron');
 const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
+const currentPath = process.cwd();
 
-cron.schedule('3 2 * * *',async () => {
-  console.log("notify at 10:03 in Taiwan")
+console.log(currentPath)
+
+cron.schedule('17 2 * * *',async () => {
+  console.log("notify at 10:17 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
@@ -36,13 +39,13 @@ cron.schedule('3 2 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync('/app/ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync(currentPath + '/ScheduleDate.txt', 'utf-8');
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync('/app/ScheduleDate.txt', str);
+  await fs.writeFileSync(currentPath + '/app/ScheduleDate.txt', str);
 }
 
 // // catch 404 and forward to error handler
