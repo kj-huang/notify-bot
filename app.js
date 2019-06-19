@@ -9,8 +9,8 @@ const currentPath = process.cwd();
 
 console.log("dir: " + currentPath)
 
-cron.schedule('22 2 * * *',async () => {
-  console.log("notify at 10:22 in Taiwan")
+cron.schedule('26 2 * * *',async () => {
+  console.log("notify at 10:26 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
@@ -39,13 +39,13 @@ cron.schedule('22 2 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync('/ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync('../ScheduleDate.txt', 'utf-8');
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync('/ScheduleDate.txt', str);
+  await fs.writeFileSync('../ScheduleDate.txt', str);
 }
 
 // // catch 404 and forward to error handler
