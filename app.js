@@ -1,17 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
 const cron = require('node-cron');
 const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
 const repoHelper = require("./dao/repo");
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-cron.schedule('25 1 * * *',async () => {
-  console.log("notify at 09:25 in Taiwan")
+cron.schedule('31 1 * * *',async () => {
+  console.log("notify at 09:31 in Taiwan")
   try{
   let scheduleDates = await repoHelper.readDateList();
 
