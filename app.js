@@ -1,13 +1,15 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
 const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
-const currentPath = process.cwd();
 
-console.log("dir: " + currentPath)
+const currentPath = process.cwd();
+console.log(__dirname);
+// console.log("dir: " + currentPath)
 
 cron.schedule('28 2 * * *',async () => {
   console.log("notify at 10:28 in Taiwan")
@@ -39,13 +41,13 @@ cron.schedule('28 2 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync('./ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync(__dirname + '/ScheduleDate.txt', 'utf-8');
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync('./ScheduleDate.txt', str);
+  await fs.writeFileSync(__dirname + '/ScheduleDate.txt', str);
 }
 
 // // catch 404 and forward to error handler
