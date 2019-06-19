@@ -6,8 +6,8 @@ const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
 
-cron.schedule('58 1 * * *',async () => {
-  console.log("notify at 09:58 in Taiwan")
+cron.schedule('0 2 * * *',async () => {
+  console.log("notify at 10:00 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
@@ -36,13 +36,13 @@ cron.schedule('58 1 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync('./app/ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync('/app/ScheduleDate.txt', 'utf-8');
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync('./app/ScheduleDate.txt', str);
+  await fs.writeFileSync('/app/ScheduleDate.txt', str);
 }
 
 // // catch 404 and forward to error handler
