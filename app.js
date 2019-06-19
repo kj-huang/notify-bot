@@ -11,8 +11,8 @@ const currentPath = process.cwd();
 console.log(__dirname);
 // console.log("dir: " + currentPath)
 
-cron.schedule('28 2 * * *',async () => {
-  console.log("notify at 10:28 in Taiwan")
+cron.schedule('36 2 * * *',async () => {
+  console.log("notify at 10:36 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
