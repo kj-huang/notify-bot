@@ -10,11 +10,11 @@ let moment = require("moment-timezone");
 let filePath = path.join(__dirname, 'scheduleDate.txt');
 console.log(filePath);
 
-cron.schedule('4 4 * * *',async () => {
-  console.log("notify at 12:04 in Taiwan")
+cron.schedule('9 4 * * *',async () => {
+  console.log("notify at 12:09 in Taiwan")
   try{
     let scheduleDates = await readDateList();
-    
+    console.log(scheduleDates)
     if(scheduleDates !== ""){
       scheduleDates = scheduleDates.split("\n");
   
@@ -40,7 +40,7 @@ cron.schedule('4 4 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync(filePath);
+  let data = await fs.readFileSync(filePath, 'utf-8');
   return data;
 }
 
