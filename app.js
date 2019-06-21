@@ -7,12 +7,11 @@ const lineHelper = require("./services/line-helper");
 let app = express();
 let moment = require("moment-timezone");
 
-const currentPath = process.cwd();
-console.log(__dirname);
-// console.log("dir: " + currentPath)
+let filePath = path.join(__dirname, 'scheduleDate.txt');
+console.log(filePath);
 
-cron.schedule('36 2 * * *',async () => {
-  console.log("notify at 10:36 in Taiwan")
+cron.schedule('4 4 * * *',async () => {
+  console.log("notify at 12:04 in Taiwan")
   try{
     let scheduleDates = await readDateList();
     
@@ -41,13 +40,13 @@ cron.schedule('36 2 * * *',async () => {
 });
 
 async function readDateList(){
-  let data = await fs.readFileSync(__dirname + '/ScheduleDate.txt', 'utf-8');
+  let data = await fs.readFileSync(filePath);
   return data;
 }
 
 async function updateDateList(data){
   let str = data.join("\n");
-  await fs.writeFileSync(__dirname + '/ScheduleDate.txt', str);
+  await fs.writeFileSync(filePath);
 }
 
 // // catch 404 and forward to error handler
