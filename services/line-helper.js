@@ -8,15 +8,15 @@ const LineMessage = require("./linebot/template");
  * @param {object} data - 
  */
 model.pushMarketingMsgTo = async function (ID) {
-  await LineBot.pushText(ID, 'Marketing');
+  await LineBot.pushText(ID, '跑統計讀書會社群行銷提醒');
 }
 
 model.pushMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '接龍');
+  await LineBot.pushText(ID, '跑統計讀書會社群接龍');
 }
 
 model.pushActivityMsgTo = async function (ID) {
-  await LineBot.pushText(ID, 'Activity');
+  await LineBot.pushText(ID, '今天有跑統計讀書會！');
 }
 
 module.exports = model;
