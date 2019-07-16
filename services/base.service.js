@@ -24,8 +24,16 @@ functions.isRemainThreeDays = function (now, d) {
     return (now === moment(d).subtract(3, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
 }
 
+functions.isRemainOneDays = function (now, d) {
+    return (now === moment(d).subtract(1, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+}
+
 functions.isToday = function (now, d) {
     return (now === moment(d).tz("Asia/Taipei").format("YYYYMMDD"));
+}
+
+functions.isDPlusOneDay = function (now, d) {
+    return (now === moment(d).add(1, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
 }
 
 module.exports = functions;

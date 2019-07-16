@@ -6,6 +6,9 @@ let app = express();
 let moment = require("moment-timezone");
 const baseService = require("./services/base.service");
 
+/* 
+ * 讀書會 schedule events 
+ */
 cron.schedule('0 1 * * *',async () => {
   console.log("notify at 09:00 in Taiwan");
   try{
@@ -16,10 +19,22 @@ cron.schedule('0 1 * * *',async () => {
       let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
       if(baseService.isRemainFiveDays(now, scheduleDates[0])){
         lineHelper.pushMarketingMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      } else if(baseService.isRemainThreeDays(now, scheduleDates[0])){
+      } 
+      
+      else if(baseService.isRemainThreeDays(now, scheduleDates[0])){
         lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      } else if(baseService.isToday(now, scheduleDates[0])){
+      } 
+
+      else if(baseService.isRemainOneDays(now, scheduleDates[0])){
+        lineHelper.pushActMsgTo('Cab8dc815286247966f63012fb4dd64e4');
+      }
+      
+      else if(baseService.isToday(now, scheduleDates[0])){
         lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
+      } 
+      
+      else if(baseService.isDPlusOneDay(now, scheduleDates[0])){
+        lineHelper.pushRetroMsgTo('Cab8dc815286247966f63012fb4dd64e4');
   
         //housekeeping
         scheduleDates.shift();
@@ -33,5 +48,22 @@ cron.schedule('0 1 * * *',async () => {
     console.log(e);
   }
 });
+
+
+/*
+ * 提醒行銷問卷發布
+ */
+cron.schedule('0 1 * * * 2',async () => {
+  console.log("提醒行銷問卷發布");
+  lineHelper.pushMktQuery('Cab8dc815286247966f63012fb4dd64e4');
+})
+
+/*
+ * 問卷發布服務
+ */
+cron.schedule('0 1 * * * 5',async () => {
+  console.log("問卷發布服務");
+  lineHelper.pushQuerySvc('Cab8dc815286247966f63012fb4dd64e4');
+})
 
 module.exports = app;

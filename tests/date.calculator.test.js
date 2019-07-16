@@ -21,7 +21,17 @@ describe("Test Date Calculator functions", () =>{
         expect(service.isRemainThreeDays(today, d)).to.be.true;
     })
 
+    it("should retrun 1 days", function(){
+        d = moment(d).add(1, 'days');
+        expect(service.isRemainOneDays(today, d)).to.be.true;
+    })
+
     it("should retrun today", function(){
         expect(service.isToday(today, d)).to.be.true;
+    });
+
+    it("should retrun D+1 days", function(){
+        d = moment(d).subtract(1, 'days');
+        expect(service.isDPlusOneDay(today, d)).to.be.true;
     });
 })
