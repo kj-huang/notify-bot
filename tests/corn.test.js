@@ -8,13 +8,13 @@ describe("Test Date Calculator functions", () =>{
         expect(valid).to.be.true;
     })
 
-    it("should validate with cron register at 0 1 * * * 2", () =>{
-        let valid = cron.validate('0 1 * * * 2');
+    it("should validate with cron register at 0 0 1 * * * 2", () =>{
+        let valid = cron.validate('0 0 1 * * * 2');
         expect(valid).to.be.true;
     })
 
-    it("should validate with cron register at 0 1 * * * 5", () =>{
-        let valid = cron.validate('0 1 * * * 5');
+    it("should validate with cron register at 0 0 1 * * * 5", () =>{
+        let valid = cron.validate('0 0 1 * * * 5');
         expect(valid).to.be.true;
     })
 })
