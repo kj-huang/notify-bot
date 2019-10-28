@@ -53,17 +53,17 @@ cron.schedule('0 1 * * *',async () => {
 /*
  * 提醒行銷問卷發布
  */
-cron.schedule('0 0 1 * * 2',async () => {
-  console.log("提醒行銷問卷發布");
-  lineHelper.pushMktQuery('Cab8dc815286247966f63012fb4dd64e4');
-})
+//cron.schedule('0 0 1 * * 2',async () => {
+//  console.log("提醒行銷問卷發布");
+//  lineHelper.pushMktQuery('Cab8dc815286247966f63012fb4dd64e4');
+//})
 
 /*
  * 問卷發布服務
  */
-cron.schedule('0 0 1 * * 5',async () => {
-  console.log("問卷發布服務");
-  lineHelper.pushQuerySvc('Cab8dc815286247966f63012fb4dd64e4');
-})
+//cron.schedule('0 0 1 * * 5',async () => {
+//  console.log("問卷發布服務");
+//  lineHelper.pushQuerySvc('Cab8dc815286247966f63012fb4dd64e4');
+//})
 
 module.exports = app;
