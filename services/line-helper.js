@@ -21,7 +21,7 @@ model.pushActMsgTo = async function (ID) {
 
 
 model.pushActivityMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '主持人：提醒您今天讀書會，上午要發五大群組的今日活動預告。Robot 溫馨提醒');
+  await LineBot.pushText(ID, '活動組：提醒您今天讀書會，上午要發五大群組的今日活動預告。Robot 溫馨提醒');
 }
 
 model.pushRetroMsgTo = async function (ID) {
