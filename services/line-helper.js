@@ -16,12 +16,12 @@ model.pushMsgTo = async function (ID) {
 }
 
 model.pushActMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '活動組 世嵩：提醒你今天需上傳主群組接龍需放講員講義的連結。Robot 溫馨提醒');
+  await LineBot.pushText(ID, '會員組 國龍：提醒你今天需上傳主群組接龍需放講員講義的連結。Robot 溫馨提醒');
 }
 
 
 model.pushActivityMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '活動組：提醒您今天讀書會，上午要發五大群組的今日活動預告。Robot 溫馨提醒');
+  await LineBot.pushText(ID, '活動組 世嵩：提醒您今天讀書會，上午1200前要發三大社群(不包含個案社)的今晚的活動預告，要加上講員講義。主群是接龍PO文+講員講義再度提醒。Robot 溫馨提醒');
 }
 
 model.pushRetroMsgTo = async function (ID) {
