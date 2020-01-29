@@ -1,6 +1,5 @@
 let model = {};
 const LineBot = require("./linebot/line_init");
-const LineMessage = require("./linebot/template");
 
 /**
  * 
