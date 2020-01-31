@@ -26,15 +26,14 @@ cron.schedule('0 1 * * *',async () => {
       scheduleDates = scheduleDates.split("\n");
   
       let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-      if(baseService.isRemainFiveDays(now, scheduleDates[0])){
+    
+      if(baseService.isRemainThreeDays(now, scheduleDates[0])){
+        lineHelper.pushMarketingMsg2To('Cab8dc815286247966f63012fb4dd64e4');
         lineHelper.pushMarketingMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      } 
-      
-      else if(baseService.isRemainThreeDays(now, scheduleDates[0])){
-        lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       } 
 
       else if(baseService.isRemainOneDays(now, scheduleDates[0])){
+        lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
         lineHelper.pushActMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       }
       
@@ -59,16 +58,15 @@ cron.schedule('0 1 * * *',async () => {
       scheduleDates2 = scheduleDates2.split("\n");
   
       let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-      if(baseService2.isRemainFiveDays(now, scheduleDates2[0])){
-        lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-      } 
       
-      else if(baseService2.isRemainThreeDays(now, scheduleDates2[0])){
+      if(baseService2.isRemainThreeDays(now, scheduleDates2[0])){
+        lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
         lineHelper2.pushMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
       } 
 
       else if(baseService2.isRemainOneDays(now, scheduleDates2[0])){
         lineHelper2.pushActMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+        lineHelper2.pushActMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
       }
       
       else if(baseService2.isToday(now, scheduleDates2[0])){
