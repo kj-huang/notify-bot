@@ -19,7 +19,7 @@ model.pushMsgTo = async function (ID) {
 }
 
 model.pushActMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '主持人 重宗：提醒你今天需請主講人1.觀看主講人SOP影片 2.請講師當天2050上線測試 3.開始前要求與會者寫FB100字心得');
+  await LineBot.pushText(ID, '講師組 國龍：提醒你今天需請主講人1.觀看主講人SOP影片 2.請講師當天2050上線測試 3.開始前要求與會者寫FB100字心得');
 }
 
 
