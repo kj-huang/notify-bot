@@ -70,10 +70,13 @@ cron.schedule('0 1 * * *',async () => {
       else if(baseService2.isRemainOneDays(now, scheduleDates2[0])){
         lineHelper2.pushActMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
         lineHelper2.pushActMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
+        lineHelper2.pushActivityMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
       }
       
       else if(baseService2.isToday(now, scheduleDates2[0])){
         lineHelper2.pushActivityMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+        lineHelper2.pushActivityMsg3To('Cf62c1689b42440bd588d9b3eb063dd05');
+        lineHelper2.pushActivityMsg4To('Cf62c1689b42440bd588d9b3eb063dd05');
       } 
       
       else if(baseService2.isDPlusOneDay(now, scheduleDates2[0])){
@@ -94,28 +97,4 @@ cron.schedule('0 1 * * *',async () => {
   }
 });
 
-app.post("/callback", function(req, res){
-    const body = req.body;
-
-    let source = body.events[0].source.groupId;
-    console.log(source)
-    res.send(200)
-})
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
-  });
-  
-  // error handler
-  app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    console.log(err)
-    // render the error page
-    res.status(err.status || 500);
-    // res.render('error');
-  });
 module.exports = app;
