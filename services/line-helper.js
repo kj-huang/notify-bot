@@ -15,7 +15,7 @@ model.pushMarketingMsg2To = async function (ID) {
 }
 
 model.pushMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '講師組 國龍：提醒你今天需上傳主群組接龍需放講員講義的連結。Robot 溫馨提醒');
+  await LineBot.pushText(ID, '講師組 國龍：提醒你今天需上傳主群組接龍需放講員講義的連結，並且將講義連結放置PO文接龍表。Robot 溫馨提醒');
 }
 
 model.pushActMsgTo = async function (ID) {
@@ -24,7 +24,19 @@ model.pushActMsgTo = async function (ID) {
 
 
 model.pushActivityMsgTo = async function (ID) {
+  await LineBot.pushText(ID, '活動組 世嵩：提醒您今晚2000要發布有報名的人員Zoom連結，要加上講員講義。Robot 溫馨提醒');
+}
+
+model.pushActivityMsg2To = async function (ID) {
   await LineBot.pushText(ID, '活動組 世嵩：提醒您今天讀書會，上午1200前要發三大社群(不包含個案社)的今晚的活動預告，要加上講員講義。主群是接龍PO文+講員講義再度提醒。Robot 溫馨提醒');
+}
+
+model.pushActivityMsg3To = async function (ID) {
+  await LineBot.pushText(ID, 'FB小編 世嵩:提醒您今天1200要開100字的FB心得分享區，並放在大群給有參與讀書會的人填寫。Robot 溫馨提醒');
+}
+
+model.pushActivityMsg4To = async function (ID) {
+  await LineBot.pushText(ID, '活動組 世嵩：提醒您晚上2030要將報名連結關閉，並且重新發布ZOOM連結及報名講義給有報名的人員。Robot 溫馨提醒');
 }
 
 model.pushRetroMsgTo = async function (ID) {

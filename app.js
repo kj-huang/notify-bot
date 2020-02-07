@@ -35,10 +35,13 @@ cron.schedule('0 1 * * *',async () => {
       else if(baseService.isRemainOneDays(now, scheduleDates[0])){
         lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
         lineHelper.pushActMsgTo('Cab8dc815286247966f63012fb4dd64e4');
+        lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       }
       
       else if(baseService.isToday(now, scheduleDates[0])){
-        lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
+        lineHelper.pushActivityMsg2To('Cab8dc815286247966f63012fb4dd64e4');
+        lineHelper.pushActivityMsg3To('Cab8dc815286247966f63012fb4dd64e4');
+        lineHelper.pushActivityMsg4To('Cab8dc815286247966f63012fb4dd64e4');
       } 
       
       else if(baseService.isDPlusOneDay(now, scheduleDates[0])){
