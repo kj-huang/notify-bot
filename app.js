@@ -61,19 +61,16 @@ cron.schedule('0 0 * * *',async () => {
       
       if(baseService2.isRemainThreeDays(now, scheduleDates2[0])){
         lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
       } 
 
       else if(baseService2.isRemainOneDays(now, scheduleDates2[0])){
         lineHelper2.pushActMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
         lineHelper2.pushActMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushActivityMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
       }
       
       else if(baseService2.isToday(now, scheduleDates2[0])){
         lineHelper2.pushActivityMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushActivityMsg3To('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushActivityMsg4To('Cf62c1689b42440bd588d9b3eb063dd05');
+        lineHelper2.pushActivityMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
       } 
       
       else if(baseService2.isDPlusOneDay(now, scheduleDates2[0])){
