@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 /* 
  * 讀書會 schedule events 
  */
-cron.schedule('0 1 * * *',async () => {
+cron.schedule('0 0 * * *',async () => {
   console.log("notify at 09:00 in Taiwan");
   try{
     let scheduleDates = await baseService.readDateList();
