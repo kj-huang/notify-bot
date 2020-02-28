@@ -22,8 +22,7 @@ async function readFromGoogleSheet(dataRange) {
   let s = new sheetHelper("16lC0e5TFTq83Qs6PncZPI5t7-3HeYxCZAJDI_1kOUmU");
   await s.getAuthorize();
   let l = await s.ReadDataFrom(dataRange);
-
-  let r = l.map((a) => { return new Date(a[1].split('/')[0], a[1].split('/')[1], a[1].split('/')[2]) });
+  let r = l.map((a) => { return new Date(`${a[1].split('/')[0]}-${a[1].split('/')[1]}-${a[1].split('/')[2]}`); });
 
   return r;
 }
