@@ -35,6 +35,7 @@ cron.schedule('0 1 * * *', async () => {
   console.log("notify at 09:00 in Taiwan");
   try{
     let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
+    console.log(scheduleDates)
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
     scheduleDates = scheduleDates.filter((a) => { return moment(a).isAfter(now)});
 
@@ -66,6 +67,7 @@ cron.schedule('0 1 * * *', async () => {
     }
 
     let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
+    console.log(scheduleDates2)
     scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now)})
 
     if(scheduleDates2 !== ""){
