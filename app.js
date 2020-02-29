@@ -30,7 +30,8 @@ async function readFromGoogleSheet(dataRange) {
 /* 
  * 讀書會 schedule events 
  */
-cron.schedule('0 1 * * *', async () => {
+// 0 0 * * * => AM8:00 at Taipei/Asia
+cron.schedule('0 0 * * *', async () => {
   console.log("notify at 09:00 in Taiwan");
   try {
     let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
