@@ -7,6 +7,8 @@ let moment = require("moment-timezone");
 const baseService = require("./services/base.service");
 const baseService2 = require("./dynamic/services/base.service");
 const lineHelper2 = require("./dynamic/services/line-helper");
+const lineHelper3 = require("./casestudy/services/line-helper");
+const baseService3 = require("./casestudy/services/base.service");
 const bodyParser = require('body-parser');
 const sheetHelper = require("./services/google/google-sheet-helper");
 
@@ -15,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //跑統計社 Cab8dc815286247966f63012fb4dd64e4
 //動態競爭 Cf62c1689b42440bd588d9b3eb063dd05
-
+//快艇提醒機器人 C071ecfc78589b2f4840980c15059c681
 
 //dataRange = "跑統計社!A22:B33"
 async function readFromGoogleSheet(dataRange) {
@@ -98,11 +100,51 @@ cron.schedule('0 0 * * *', async () => {
       console.log("No schedule Date!");
     }
 
+    let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
+
+    scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
+
+    if (scheduleDates3 !== "") {
+      if(baseService3.isRemainFiveDays(now, scheduleDates3[0])){
+        lineHelper3.pushCase1('C071ecfc78589b2f4840980c15059c681');
+        lineHelper3.pushCase2('C071ecfc78589b2f4840980c15059c681');
+      }
+      if(baseService3.isRemainThreeDays(now, scheduleDates3[0])){
+        lineHelper3.pushCase3('C071ecfc78589b2f4840980c15059c681');
+        lineHelper3.pushCase4('C071ecfc78589b2f4840980c15059c681');
+      }
+      if(baseService3.isRemainOneDays(now, scheduleDates3[0])){
+        lineHelper3.pushCase5('C071ecfc78589b2f4840980c15059c681');
+        lineHelper3.pushCase6('C071ecfc78589b2f4840980c15059c681');
+      }
+      if(baseService3.isToday(now, scheduleDates3[0])){
+        lineHelper3.pushCase7('C071ecfc78589b2f4840980c15059c681');
+      }
+    } else {
+      console.log("No schedule Date!");
+    }
+
 
   } catch (e) {
     console.log(e);
   }
 });
+
+//fetch group ID
+// const handleEvent = (event) => {
+//   const { type, replyToken, message } = event;
+//   const messageType = message.type;
+//   console.log(event.source);
+//   return Promise.resolve(null);
+// };
+// app.post('/webhook', (req, res)=>{
+//   const { body } = req;
+
+// const { events } = body;
+//   Promise.all(events.map(handleEvent))
+//     .then((result) => res.status(200).send(result))
+//     .catch((err) => console.log(err));
+// })
 
 app.get('/', async function (req, res) {
   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
@@ -114,7 +156,11 @@ app.get('/', async function (req, res) {
   console.log(scheduleDates2)
   scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now) })
 
-  res.json({ statistic: scheduleDates, dynamic: scheduleDates2 })
+  let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
+  console.log(scheduleDates3)
+  scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
+
+  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates3 })
 });
 
 
