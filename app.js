@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //跑統計社 Cab8dc815286247966f63012fb4dd64e4
 //動態競爭 Cf62c1689b42440bd588d9b3eb063dd05
 //快艇提醒機器人 C071ecfc78589b2f4840980c15059c681
+// Me U9001a7b94e9039fbfd7938f5801e78c9
 
 //dataRange = "跑統計社!A22:B33"
 async function readFromGoogleSheet(dataRange) {
@@ -105,25 +106,40 @@ cron.schedule('0 0 * * *', async () => {
     scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
     if (scheduleDates3 !== "") {
-      if(baseService3.isRemainFiveDays(now, scheduleDates3[0])){
-        lineHelper3.pushCase1('C071ecfc78589b2f4840980c15059c681');
-        lineHelper3.pushCase2('C071ecfc78589b2f4840980c15059c681');
+      if(baseService3.isRemain13Days(now, scheduleDates3[0])){
+        let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
+
+        lineHelper3.pushLearn('C071ecfc78589b2f4840980c15059c681', templateD);
       }
-      if(baseService3.isRemainThreeDays(now, scheduleDates3[0])){
-        lineHelper3.pushCase3('C071ecfc78589b2f4840980c15059c681');
-        lineHelper3.pushCase4('C071ecfc78589b2f4840980c15059c681');
+      if(baseService3.isRemainSixDays(now, scheduleDates3[0])){
+        let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
+
+        lineHelper3.pushCoach('C071ecfc78589b2f4840980c15059c681', templateD);
       }
       if(baseService3.isRemainOneDays(now, scheduleDates3[0])){
-        lineHelper3.pushCase5('C071ecfc78589b2f4840980c15059c681');
-        lineHelper3.pushCase6('C071ecfc78589b2f4840980c15059c681');
+        lineHelper3.pushNotifyBeforeReading('C071ecfc78589b2f4840980c15059c681');
       }
       if(baseService3.isToday(now, scheduleDates3[0])){
-        lineHelper3.pushCase7('C071ecfc78589b2f4840980c15059c681');
+        lineHelper3.todayIsReading('C071ecfc78589b2f4840980c15059c681');
       }
     } else {
       console.log("No schedule Date!");
     }
 
+    let scheduleDates4 = await readFromGoogleSheet("快艇!A27:B28")
+
+    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
+
+    if (scheduleDates4 !== "") {
+      if(baseService3.is83(now)){
+        lineHelper3.At83('C071ecfc78589b2f4840980c15059c681');
+      }
+      if(baseService3.is1025(now)){
+        lineHelper3.At1025('C071ecfc78589b2f4840980c15059c681');
+      }
+    } else {
+      console.log("No schedule Date!");
+    }
 
   } catch (e) {
     console.log(e);
@@ -160,7 +176,11 @@ app.get('/', async function (req, res) {
   console.log(scheduleDates3)
   scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
-  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates3 })
+  let scheduleDates4 = await readFromGoogleSheet("快艇!A27:B28")
+  console.log(scheduleDates4)
+  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
+
+  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates3, st: scheduleDates4 })
 });
 
 

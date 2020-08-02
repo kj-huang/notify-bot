@@ -16,12 +16,12 @@ functions.updateDateList = async function (data) {
     await fs.writeFileSync(filePath, str);
 }
 
-functions.isRemainFiveDays = function (now, d) {
-    return (now === moment(d).subtract(5, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+functions.isRemain13Days = function (now, d) {
+    return (now === moment(d).subtract(13, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
 }
 
-functions.isRemainThreeDays = function (now, d) {
-    return (now === moment(d).subtract(3, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+functions.isRemainSixDays = function (now, d) {
+    return (now === moment(d).subtract(6, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
 }
 
 functions.isRemainOneDays = function (now, d) {
@@ -34,6 +34,14 @@ functions.isToday = function (now, d) {
 
 functions.isDPlusOneDay = function (now, d) {
     return (now === moment(d).add(1, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+}
+
+functions.is83 = function (now) {
+    return (now === moment.tz("2020-08-03 09:00", "Asia/Taipei").format("YYYYMMDD"));
+}
+
+functions.is1025 = function (now) {
+    return (now === moment.tz("2020-10-25 09:00", "Asia/Taipei").format("YYYYMMDD"));
 }
 
 module.exports = functions;
