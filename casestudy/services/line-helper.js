@@ -116,7 +116,7 @@ model.At1025 = async function(Id){
   20.林庭瑩-黃孟儒`)
 }
 
-model.pushLearn0807 = function(ID) {
+model.pushLearn0807 = async function(ID) {
   await LineBot.pushText(ID, `請學習組在8/10(一)前提供黃老師第一次作業的Word，內容為：個案公司與Issue，就是寫完個案本文。
   寄到 pmsuccess@gmail.com ; kmcccase@gmail.com
   主旨：「快艇4第1次作業，學習第X組，YY公司」
