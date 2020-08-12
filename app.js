@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //跑統計社 Cab8dc815286247966f63012fb4dd64e4
 //動態競爭 Cf62c1689b42440bd588d9b3eb063dd05
 //快艇提醒機器人 C071ecfc78589b2f4840980c15059c681
-// Me U9001a7b94e9039fbfd7938f5801e78c9
+//Me U9001a7b94e9039fbfd7938f5801e78c9
+//Roger Ub39c328baddea9fd4204d4edb166dc80
 
 //dataRange = "跑統計社!A22:B33"
 async function readFromGoogleSheet(dataRange) {
@@ -110,13 +111,15 @@ cron.schedule('0 0 * * *', async () => {
       
       if(baseService3.isRemain13Days(now, scheduleDates3[0])){
         let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
+        let time = d === '20200909' ? 2: 3;
 
-        lineHelper3.pushLearn('C071ecfc78589b2f4840980c15059c681', templateD);
+        lineHelper3.pushLearn('C071ecfc78589b2f4840980c15059c681', templateD, time);
       }
       if(baseService3.isRemainSixDays(now, scheduleDates3[0])){
         let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
-
-        lineHelper3.pushCoach('C071ecfc78589b2f4840980c15059c681', templateD);
+        let time = d === '20200916' ? 2: 3;
+        
+        lineHelper3.pushCoach('C071ecfc78589b2f4840980c15059c681', templateD, time);
       }
       if(baseService3.isRemainOneDays(now, scheduleDates3[0])){
         lineHelper3.pushNotifyBeforeReading('C071ecfc78589b2f4840980c15059c681');
@@ -149,20 +152,20 @@ cron.schedule('0 0 * * *', async () => {
 });
 
 //fetch group ID
-// const handleEvent = (event) => {
-//   const { type, replyToken, message } = event;
-//   const messageType = message.type;
-//   console.log(event.source);
-//   return Promise.resolve(null);
-// };
-// app.post('/webhook', (req, res)=>{
-//   const { body } = req;
+const handleEvent = (event) => {
+  const { type, replyToken, message } = event;
+  const messageType = message.type;
+  console.log(event.source);
+  return Promise.resolve(null);
+};
+app.post('/webhook', (req, res)=>{
+  const { body } = req;
 
-// const { events } = body;
-//   Promise.all(events.map(handleEvent))
-//     .then((result) => res.status(200).send(result))
-//     .catch((err) => console.log(err));
-// })
+const { events } = body;
+  Promise.all(events.map(handleEvent))
+    .then((result) => res.status(200).send(result))
+    .catch((err) => console.log(err));
+})
 
 app.get('/', async function (req, res) {
   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");

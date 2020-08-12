@@ -41,21 +41,21 @@ model.At83 = async function(Id){
 
 model.pushCoach = async function (ID, date) {
   await LineBot.pushText(ID, `請輔導組在${date}(六)前提供黃老師第一次作業的PPT，內容為：個案公司與Issue，就是寫完個案本文。
-  寄到 ssyy5678@gmail.com ; pmsuccess@gmail.com ; seanhs0622@gmail.com
-  主旨：「快艇4第1次作業，輔導第X組，YY公司」
+  寄到   pmsuccess@gmail.com ; kmcccase@gmail.com
+  主旨：「快艇4第${times}次作業，輔導第X組，YY公司」
   提交後請在自己組別最前面打V_
   輔導組：
-  1. 葉怡良
-  2. 趙以選
-  3. 陳淑娟-張碧珠
-  4. 趙瑀-黎小美`);
+  1.葉怡良
+  2.趙以選
+  3.陳淑娟-張碧珠
+  5.吳斯偉-鄭婕妤-沈盛達-朱有義`);
 }
 
 
-model.pushLearn = async function (ID, date) {
+model.pushLearn = async function (ID, date, times) {
   await LineBot.pushText(ID, `請學習組在${date}(六)前提供黃老師第一次作業的Word，內容為：個案公司與Issue，就是寫完個案本文。
   寄到 pmsuccess@gmail.com ; kmcccase@gmail.com
-  主旨：「快艇4第1次作業，學習第X組，YY公司」
+  主旨：「快艇4第${times}次作業，學習第X組，YY公司」
   提交後請在自己組別最前面打V_
   學習組：
   4.黎小美
