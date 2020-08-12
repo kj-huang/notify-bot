@@ -118,7 +118,7 @@ cron.schedule('0 0 * * *', async () => {
       if(baseService3.isRemainSixDays(now, scheduleDates3[0])){
         let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
         let time = d === '20200916' ? 2: 3;
-        
+
         lineHelper3.pushCoach('C071ecfc78589b2f4840980c15059c681', templateD, time);
       }
       if(baseService3.isRemainOneDays(now, scheduleDates3[0])){
@@ -152,20 +152,20 @@ cron.schedule('0 0 * * *', async () => {
 });
 
 //fetch group ID
-const handleEvent = (event) => {
-  const { type, replyToken, message } = event;
-  const messageType = message.type;
-  console.log(event.source);
-  return Promise.resolve(null);
-};
-app.post('/webhook', (req, res)=>{
-  const { body } = req;
+// const handleEvent = (event) => {
+//   const { type, replyToken, message } = event;
+//   const messageType = message.type;
+//   console.log(event.source);
+//   return Promise.resolve(null);
+// };
+// app.post('/webhook', (req, res)=>{
+//   const { body } = req;
 
-const { events } = body;
-  Promise.all(events.map(handleEvent))
-    .then((result) => res.status(200).send(result))
-    .catch((err) => console.log(err));
-})
+// const { events } = body;
+//   Promise.all(events.map(handleEvent))
+//     .then((result) => res.status(200).send(result))
+//     .catch((err) => console.log(err));
+// })
 
 app.get('/', async function (req, res) {
   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
