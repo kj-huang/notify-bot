@@ -53,17 +53,14 @@ model.pushCoach = async function (ID, date) {
 
 
 model.pushLearn = async function (ID, date) {
-  await LineBot.pushText(ID, `請學習組在${date}(六)前提供黃老師第一次作業的PPT，內容為：個案公司與Issue，就是寫完個案本文。
-  寄到 ssyy5678@gmail.com ; pmsuccess@gmail.com ; seanhs0622@gmail.com
+  await LineBot.pushText(ID, `請學習組在${date}(六)前提供黃老師第一次作業的Word，內容為：個案公司與Issue，就是寫完個案本文。
+  寄到 pmsuccess@gmail.com ; kmcccase@gmail.com
   主旨：「快艇4第1次作業，學習第X組，YY公司」
   提交後請在自己組別最前面打V_
   學習組：
-  5.吳斯偉-鄭婕妤-沈盛達
-  6.陳川正-吳道揆
+  4.黎小美
   7.汪季婷-李佩真
-  8.翁明祺
   9.蕭世雄-黃孟儒
-  10.黃子佳
   11.李世樑
   12.郭翠菱
   13.陳凰珠
@@ -115,30 +112,5 @@ model.At1025 = async function(Id){
   19.葉承宇-邱明慧
   20.林庭瑩-黃孟儒`)
 }
-
-model.pushLearn0807 = async function(ID) {
-  await LineBot.pushText(ID, `請學習組在8/10(一)前提供黃老師第一次作業的Word，內容為：個案公司與Issue，就是寫完個案本文。
-  寄到 pmsuccess@gmail.com ; kmcccase@gmail.com
-  主旨：「快艇4第1次作業，學習第X組，YY公司」
-  提交後請在自己組別最前面打V_
-  學習組：
-  4.黎小美
-  6.陳川正-吳道揆
-  7.汪季婷-李佩真
-  8.翁明祺
-  9.蕭世雄-黃孟儒
-  10.黃子佳
-  11.李世樑
-  12.郭翠菱
-  13.陳凰珠
-  14.吳奇岳-王逸萍-吳明憲
-  15.林瓊香-黃秀勤
-  16.林登雄-薛健宏
-  17.楊馥鴻-黃遵誠
-  18.鄧雅寧-夏冠群-陳建宏
-  19.葉承宇-邱明慧
-  20.林庭瑩-黃孟儒`)
-}
-
 
 module.exports = model;

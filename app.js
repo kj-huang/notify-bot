@@ -108,10 +108,6 @@ cron.schedule('0 0 * * *', async () => {
     if (scheduleDates3 !== "") {
       let d = moment().tz("Asia/Taipei").format("YYYYMMDD");
       
-      if(d === "20200807"){
-        lineHelper3.pushLearn0807('C071ecfc78589b2f4840980c15059c681');
-      }
-
       if(baseService3.isRemain13Days(now, scheduleDates3[0])){
         let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
 
