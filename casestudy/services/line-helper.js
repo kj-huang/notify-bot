@@ -113,4 +113,8 @@ model.At1025 = async function(Id){
   20.林庭瑩-黃孟儒`)
 }
 
+model.pushUploadMsg = function(ID){
+  await LineBot.pushText(ID, '錄影志工世雄及神珠好，提醒您們將昨日輔導的讀書會影片上傳至快艇4的雲端資料夾 https://bit.ly/3ay4GY0 ，檔名命名方式如下: 191213_快艇1_第二次黃老師輔導_XX志工錄.mp4');
+}
+
 module.exports = model;

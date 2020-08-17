@@ -127,6 +127,9 @@ cron.schedule('0 0 * * *', async () => {
       if(baseService3.isToday(now, scheduleDates3[0])){
         lineHelper3.todayIsReading('C071ecfc78589b2f4840980c15059c681');
       }
+      if(baseService3.isDPlusOneDay(now, scheduleDates3[0])){
+        lineHelper3.pushUploadMsg('C071ecfc78589b2f4840980c15059c681');
+      }
     } else {
       console.log("No schedule Date!");
     }
