@@ -78,7 +78,9 @@ model.pushNotifyBeforeReading = async function (ID) {
 }
 
 model.todayIsReading = async function (ID) {
-  await LineBot.pushText(ID, '快艇4輔導組及學習組好，提醒大家今晚2100要開黃老師輔導讀書會，請大家務必出席。Zoom連結如下 https://zoom.us/j/5161816000?pwd=MHJUbzE2Z2Z4UkVkK1IrZHZob2xaUT09 ，無法出席者請向Roger導師請假');
+  await LineBot.pushText(ID, `快艇4輔導組及學習組好，提醒大家今晚2100要開黃老師輔導讀書會，請大家務必出席。Zoom連結如下 https://zoom.us/j/5161816000?pwd=MHJUbzE2Z2Z4UkVkK1IrZHZob2xaUT09 ，無法出席者請向Roger導師請假
+請輔導組預先看以下操作影片：
+社群Zoom讀書會 主講人視角 https://youtu.be/c6PNHOKfEb4`);
 }
 
 model.At1025 = async function(Id){
