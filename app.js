@@ -111,7 +111,8 @@ cron.schedule('0 0 * * *', async () => {
 
 // 0 1 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 1 * * *', async () => {
-  let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
+  try {
+    let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
 
     scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
@@ -157,6 +158,10 @@ cron.schedule('0 1 * * *', async () => {
     } else {
       console.log("No schedule Date!");
     }
+  } catch(e){
+    //U9001a7b94e9039fbfd7938f5801e78c9
+    lineHelper3.errorMsg('U9001a7b94e9039fbfd7938f5801e78c9', e);
+  }
 })
 
 //fetch group ID
