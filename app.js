@@ -112,7 +112,7 @@ cron.schedule('0 0 * * *', async () => {
 // 0 1 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 1 * * *', async () => {
   try {
-    let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
+    let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
 
     scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
@@ -144,7 +144,7 @@ cron.schedule('0 1 * * *', async () => {
       console.log("No schedule Date!");
     }
 
-    let scheduleDates4 = await readFromGoogleSheet("快艇!A27:B28")
+    let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
 
     scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
 
@@ -190,11 +190,11 @@ app.get('/', async function (req, res) {
   console.log(scheduleDates2)
   scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now) })
 
-  let scheduleDates3 = await readFromGoogleSheet("快艇!A20:B22")
+  let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
   console.log(scheduleDates3)
   scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
-  let scheduleDates4 = await readFromGoogleSheet("快艇!A27:B28")
+  let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
   console.log(scheduleDates4)
   scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
 
