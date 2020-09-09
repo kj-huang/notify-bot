@@ -120,7 +120,7 @@ model.pushUploadMsg = async function(ID){
 }
 
 model.errorMsg = async function(ID, e){
-  await LineBot.pushText(ID, e);
+  await LineBot.pushText(ID, e.toString());
 }
 
 module.exports = model;
