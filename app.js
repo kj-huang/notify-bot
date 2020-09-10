@@ -113,7 +113,7 @@ cron.schedule('0 0 * * *', async () => {
 cron.schedule('0 1 * * *', async () => {
   try {
     let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
-
+    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
     scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
     if (scheduleDates3 !== "") {
