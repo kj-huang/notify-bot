@@ -39,7 +39,7 @@ model.At83 = async function(Id){
   20.林庭瑩-黃孟儒`)
 }
 
-model.pushCoach = async function (ID, date) {
+model.pushCoach = async function (ID, date, times) {
   await LineBot.pushText(ID, `請輔導組在${date}(六)前提供黃老師第一次作業的PPT，內容為：個案公司與Issue，就是寫完個案本文。
   寄到   pmsuccess@gmail.com ; kmcccase@gmail.com
   主旨：「快艇4第${times}次作業，輔導第X組，YY公司」
