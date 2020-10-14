@@ -123,4 +123,8 @@ model.errorMsg = async function(ID, e){
   await LineBot.pushText(ID, e.toString());
 }
 
+model.pushMsg = async function(ID, content){
+  await LineBot.pushText(ID, content);
+}
+
 module.exports = model;

@@ -31,6 +31,15 @@ async function readFromGoogleSheet(dataRange) {
   return r;
 }
 
+async function readFromGoogleSheetssss(dataRange) {
+  let s = new sheetHelper("16lC0e5TFTq83Qs6PncZPI5t7-3HeYxCZAJDI_1kOUmU");
+  await s.getAuthorize();
+  let l = await s.ReadDataFrom(dataRange);
+  let r = l.map((a) => { let d= new Date(`${a[0].split('/')[0]}-${a[0].split('/')[1]}-${a[0].split('/')[2]}`); let s = a[1]; return {d, s} });
+
+  return r;
+}
+
 /* 
  * 讀書會 schedule events 
  */
@@ -112,52 +121,17 @@ cron.schedule('0 1 * * *', async () => {
 // 0 1 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 0 * * *', async () => {
   try {
-    let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
-    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-    scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
+    let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
+    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isAfter(now) }).sort(function(a,b){
+      return new Date(a.d) - new Date(b.d);
+    });
 
-    if (scheduleDates3 !== "") {
-      let d = moment().tz("Asia/Taipei").format("YYYYMMDD");
-      
-      if(baseService3.isRemain13Days(now, scheduleDates3[0])){
-        let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
-        let time = d === '20200909' ? 2: 3;
-
-        lineHelper3.pushLearn('C071ecfc78589b2f4840980c15059c681', templateD, time);
-      }
-      if(baseService3.isRemainSixDays(now, scheduleDates3[0])){
-        let templateD = moment(d).add(3, 'days').tz("Asia/Taipei").format("MMDD");
-        let time = d === '20200916' ? 2: 3;
-
-        lineHelper3.pushCoach('C071ecfc78589b2f4840980c15059c681', templateD, time);
-      }
-      if(baseService3.isRemainOneDays(now, scheduleDates3[0])){
-        lineHelper3.pushNotifyBeforeReading('C071ecfc78589b2f4840980c15059c681');
-      }
-      if(baseService3.isToday(now, scheduleDates3[0])){
-        lineHelper3.todayIsReading('C071ecfc78589b2f4840980c15059c681');
-      }
-      if(baseService3.isDPlusOneDay(now, scheduleDates3[0])){
-        lineHelper3.pushUploadMsg('C071ecfc78589b2f4840980c15059c681');
-      }
+    if (!scheduleDates4[0]) {
+      lineHelper3.pushMsg('C071ecfc78589b2f4840980c15059c681', scheduleDates4[0].s)
     } else {
       console.log("No schedule Date!");
     }
 
-    let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
-
-    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
-
-    if (scheduleDates4 !== "") {
-      if(baseService3.is83(now)){
-        lineHelper3.At83('C071ecfc78589b2f4840980c15059c681');
-      }
-      if(baseService3.is1025(now)){
-        lineHelper3.At1025('C071ecfc78589b2f4840980c15059c681');
-      }
-    } else {
-      console.log("No schedule Date!");
-    }
   } catch(e){
     //U9001a7b94e9039fbfd7938f5801e78c9
     lineHelper3.errorMsg('U9001a7b94e9039fbfd7938f5801e78c9', e);
@@ -190,15 +164,20 @@ app.get('/', async function (req, res) {
   console.log(scheduleDates2)
   scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now) })
 
-  let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
-  console.log(scheduleDates3)
-  scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
+  // let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
+  // console.log(scheduleDates3)
+  // scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
-  let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
-  console.log(scheduleDates4)
-  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
+  // let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
+  // console.log(scheduleDates4)
+  // scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
 
-  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates3, st: scheduleDates4 })
+  let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
+  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isAfter(now) }).sort(function(a,b){
+    return new Date(a.d) - new Date(b.d);
+  });
+
+  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates4 })
 });
 
 
