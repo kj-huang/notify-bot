@@ -121,12 +121,14 @@ cron.schedule('0 1 * * *', async () => {
 // 0 1 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 0 * * *', async () => {
   try {
-    let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
+    let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
+    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
+
     scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isAfter(now) }).sort(function(a,b){
       return new Date(a.d) - new Date(b.d);
     });
-
-    if (!scheduleDates4[0]) {
+    
+    if (moment(scheduleDates4[0].d).format("YYYYMMDD") == now) {
       lineHelper3.pushMsg('C071ecfc78589b2f4840980c15059c681', scheduleDates4[0].s)
     } else {
       console.log("No schedule Date!");
