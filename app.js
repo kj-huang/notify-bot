@@ -120,6 +120,7 @@ cron.schedule('0 1 * * *', async () => {
 
 // 0 1 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 0 * * *', async () => {
+  console.log("notify at 08:00 in Taiwan");
   try {
     let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
