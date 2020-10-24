@@ -50,7 +50,7 @@ cron.schedule('0 1 * * *', async () => {
     let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
 
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-    scheduleDates = scheduleDates.filter((a) => { return moment(a).isAfter(now) });
+    scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
 
     if (scheduleDates !== "") {
       if (baseService.isRemainThreeDays(now, scheduleDates[0])) {
@@ -81,7 +81,7 @@ cron.schedule('0 1 * * *', async () => {
 
     let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
 
-    scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now) })
+    scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
 
     if (scheduleDates2 !== "") {
 
@@ -125,7 +125,7 @@ cron.schedule('0 0 * * *', async () => {
     let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
 
-    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isAfter(now) }).sort(function(a,b){
+    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
       return new Date(a.d) - new Date(b.d);
     });
     
@@ -161,11 +161,11 @@ app.get('/', async function (req, res) {
   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
   let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
   console.log(scheduleDates)
-  scheduleDates = scheduleDates.filter((a) => { return moment(a).isAfter(now) });
+  scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
 
   let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
   console.log(scheduleDates2)
-  scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isAfter(now) })
+  scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
 
   // let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
   // console.log(scheduleDates3)
@@ -176,7 +176,7 @@ app.get('/', async function (req, res) {
   // scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
 
   let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
-  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isAfter(now) }).sort(function(a,b){
+  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
     return new Date(a.d) - new Date(b.d);
   });
 
