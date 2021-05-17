@@ -158,29 +158,30 @@ cron.schedule('0 0 * * *', async () => {
 // })
 
 app.get('/', async function (req, res) {
-  let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-  let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
-  console.log(scheduleDates)
-  scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
+//   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
+//   let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
+//   console.log(scheduleDates)
+//   scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
 
-  let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
-  console.log(scheduleDates2)
-  scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
+//   let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
+//   console.log(scheduleDates2)
+//   scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
 
-  // let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
-  // console.log(scheduleDates3)
-  // scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
+//   // let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
+//   // console.log(scheduleDates3)
+//   // scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
 
-  // let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
-  // console.log(scheduleDates4)
-  // scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
+//   // let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
+//   // console.log(scheduleDates4)
+//   // scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
 
-  let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
-  scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
-    return new Date(a.d) - new Date(b.d);
-  });
+//   let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
+//   scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
+//     return new Date(a.d) - new Date(b.d);
+//   });
 
-  res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates4 })
+//   res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates4 })
+  res.json('success')
 });
 
 
