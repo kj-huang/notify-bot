@@ -47,12 +47,16 @@ async function readFromGoogleSheetssss(dataRange) {
 cron.schedule('0 1 * * *', async () => {
   console.log("notify at 09:00 in Taiwan");
   try {
-    let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
+    let scheduleDates = await baseService.readDateList();
 
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
     scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
 
     if (scheduleDates !== "") {
+      if (baseService.isRemainTenDays(now, scheduleDates2[0])) {
+        lineHelper.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+      }
+
       if (baseService.isRemainThreeDays(now, scheduleDates[0])) {
         lineHelper.pushMarketingMsgTo('Cab8dc815286247966f63012fb4dd64e4');
       }
@@ -70,21 +74,29 @@ cron.schedule('0 1 * * *', async () => {
       else if (baseService.isDPlusOneDay(now, scheduleDates[0])) {
         lineHelper.pushRetroMsgTo('Cab8dc815286247966f63012fb4dd64e4');
 
+
+      }
+
+      else if (baseService.isPlusFourteenDays(now, scheduleDates2[0])) {
+        lineHelper.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+
         // //housekeeping
-        // scheduleDates.shift();
+        scheduleDates.shift();
         // //write back to file
-        // await baseService.updateDateList(scheduleDates);
+        await baseService.updateDateList(scheduleDates);
       }
     } else {
       console.log("No schedule Date!");
     }
 
-    let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
+    let scheduleDates2 = await baseService2.readDateList();
 
     scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
 
     if (scheduleDates2 !== "") {
-
+      if (baseService2.isRemainTenDays(now, scheduleDates2[0])) {
+        lineHelper2.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+      }
       if (baseService2.isRemainThreeDays(now, scheduleDates2[0])) {
         lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
       }
@@ -102,10 +114,16 @@ cron.schedule('0 1 * * *', async () => {
       else if (baseService2.isDPlusOneDay(now, scheduleDates2[0])) {
         lineHelper2.pushRetroMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
 
+
+      }
+
+      else if (baseService2.isPlusFourteenDays(now, scheduleDates2[0])) {
+        lineHelper2.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+
         // //housekeeping
-        // scheduleDates2.shift();
+        scheduleDates2.shift();
         // //write back to file
-        // await baseService2.updateDateList(scheduleDates2);
+        await baseService2.updateDateList(scheduleDates2);
       }
     } else {
       console.log("No schedule Date!");
@@ -119,27 +137,27 @@ cron.schedule('0 1 * * *', async () => {
 });
 
 // 0 1 * * * => AM8:00 at Taipei/Asia
-cron.schedule('0 0 * * *', async () => {
-  console.log("notify at 08:00 in Taiwan");
-  try {
-    let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
-    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-
-    scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
-      return new Date(a.d) - new Date(b.d);
-    });
-    
-    if (moment(scheduleDates4[0].d).format("YYYYMMDD") == now) {
-      lineHelper3.pushMsg('C071ecfc78589b2f4840980c15059c681', scheduleDates4[0].s)
-    } else {
-      console.log("No schedule Date!");
-    }
-
-  } catch(e){
-    //U9001a7b94e9039fbfd7938f5801e78c9
-    lineHelper3.errorMsg('U9001a7b94e9039fbfd7938f5801e78c9', e);
-  }
-})
+// cron.schedule('0 0 * * *', async () => {
+//   console.log("notify at 08:00 in Taiwan");
+//   try {
+//     let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
+//     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
+//
+//     scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
+//       return new Date(a.d) - new Date(b.d);
+//     });
+//
+//     if (moment(scheduleDates4[0].d).format("YYYYMMDD") == now) {
+//       lineHelper3.pushMsg('C071ecfc78589b2f4840980c15059c681', scheduleDates4[0].s)
+//     } else {
+//       console.log("No schedule Date!");
+//     }
+//
+//   } catch(e){
+//     //U9001a7b94e9039fbfd7938f5801e78c9
+//     lineHelper3.errorMsg('U9001a7b94e9039fbfd7938f5801e78c9', e);
+//   }
+// })
 
 //fetch group ID
 // const handleEvent = (event) => {

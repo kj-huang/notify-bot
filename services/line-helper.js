@@ -6,6 +6,9 @@ const LineBot = require("./linebot/line_init");
  * @param {string} lineIDs - 推播訊息
  * @param {object} data - 
  */
+model.pushAuditMsgTo = async function (ID) {
+  await LineBot.pushText(ID, '讀書會前10天稽核提醒文:社員們是否有填寫社員申請表及參與讀書會');
+}
 
 model.pushMarketingMsgTo = async function (ID) {
   await LineBot.pushText(ID, 'Robot提醒1.活動組 世嵩：提醒你今天需在各大群組發佈下週二的讀書會主題。\nRobot提醒2.活動組 世嵩：提醒你今天需在主群組接龍開始報名這次的活動，記得放活動DM。');
@@ -31,5 +34,7 @@ model.pushActivityMsg2To = async function (ID) {
 model.pushRetroMsgTo = async function (ID) {
   await LineBot.pushText(ID, '資訊組 宜蓁：提醒今天要提供給三大社群這次分享的FB影片及下次活動DM。主群則提供影片連結，Robot 溫馨提醒');
 }
-
+model.pushRetroAuditMsgTo = async function (ID) {
+  await LineBot.pushText(ID, '讀書會後14天稽核提醒文:社員是否有在大社群');
+}
 module.exports = model;
