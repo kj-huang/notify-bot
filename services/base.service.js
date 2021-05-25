@@ -16,7 +16,7 @@ functions.updateDateList = async function (data) {
     await fs.writeFileSync(filePath, str);
 }
 functions.isRemainTenDays = function (now, d) {
-    return (now === moment(d).subtract(10, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+    return (now === moment(d).subtract(7, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
 }
 
 functions.isRemainFiveDays = function (now, d) {

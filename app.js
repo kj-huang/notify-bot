@@ -50,7 +50,7 @@ cron.schedule('0 1 * * *', async () => {
     let scheduleDates = await baseService.readDateList();
 
     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-    scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
+    scheduleDates = scheduleDates.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
 
     if (scheduleDates !== "") {
       if (baseService.isRemainTenDays(now, scheduleDates2[0])) {
@@ -91,7 +91,7 @@ cron.schedule('0 1 * * *', async () => {
 
     let scheduleDates2 = await baseService2.readDateList();
 
-    scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
+    scheduleDates2 = scheduleDates2.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) })
 
     if (scheduleDates2 !== "") {
       if (baseService2.isRemainTenDays(now, scheduleDates2[0])) {

@@ -7,7 +7,7 @@ const LineBot = require("./linebot/line_init");
  * @param {object} data - 
  */
 model.pushAuditMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '讀書會前10天稽核提醒文:社員們是否有填寫社員申請表及參與讀書會');
+  await LineBot.pushText(ID, '提醒開始準備稽核，第一次的稽核是稽核是否有填會員表連續五次出席讀書會，及有報名未出席讀書會，稽核對象為跑統計學術群、實務群及大大社群');
 }
 
 model.pushMarketingMsgTo = async function (ID) {
@@ -35,6 +35,6 @@ model.pushRetroMsgTo = async function (ID) {
   await LineBot.pushText(ID, '資訊組 宜蓁：提醒今天要提供給三大社群這次分享的FB影片及下次活動DM。主群則提供影片連結，Robot 溫馨提醒');
 }
 model.pushRetroAuditMsgTo = async function (ID) {
-  await LineBot.pushText(ID, '讀書會後14天稽核提醒文:社員是否有在大社群');
+  await LineBot.pushText(ID, '提醒稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群');
 }
 module.exports = model;
