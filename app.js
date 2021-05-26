@@ -94,9 +94,9 @@ cron.schedule('0 1 * * *', async () => {
     scheduleDates2 = scheduleDates2.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) })
 
     if (scheduleDates2 !== "") {
-      if (baseService2.isRemainTenDays(now, scheduleDates2[0])) {
-        lineHelper2.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-      }
+      // if (baseService2.isRemainTenDays(now, scheduleDates2[0])) {
+      //   lineHelper2.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+      // }
       if (baseService2.isRemainThreeDays(now, scheduleDates2[0])) {
         lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
       }
@@ -114,17 +114,19 @@ cron.schedule('0 1 * * *', async () => {
       else if (baseService2.isDPlusOneDay(now, scheduleDates2[0])) {
         lineHelper2.pushRetroMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
 
-
-      }
-
-      else if (baseService2.isPlusFourteenDays(now, scheduleDates2[0])) {
-        lineHelper2.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-
-        // //housekeeping
         scheduleDates2.shift();
         // //write back to file
         await baseService2.updateDateList(scheduleDates2);
       }
+
+      // else if (baseService2.isPlusFourteenDays(now, scheduleDates2[0])) {
+      //   lineHelper2.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
+
+      //   // //housekeeping
+      //   scheduleDates2.shift();
+      //   // //write back to file
+      //   await baseService2.updateDateList(scheduleDates2);
+      // }
     } else {
       console.log("No schedule Date!");
     }
@@ -201,6 +203,32 @@ app.get('/', async function (req, res) {
 //   res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates4 })
   res.json('success')
 });
+
+const handleEvent = (event) => {
+  const { type, replyToken, message } = event;
+  const messageType = message.type;
+  if (type !== 'message' || messageType !== 'text') {
+    return Promise.resolve(null);
+  }
+
+  console.log(event.source)
+  // if (verifyEvents.includes(replyToken)) return Promise.resolve(null);
+//   return client.reply(replyToken, [
+//     Line.createText('Hello'),
+//     Line.createImage(imageUrl),
+//     Line.createText('End'),
+//   ]);
+};
+
+app.post('/webhook', (req, res) => {
+  const { body } = req;
+  const { events } = body;
+
+  Promise.all(events.map(handleEvent))
+    .then((result) => res.status(200).send(result))
+    .catch((err) => console.log(err));
+});
+
 
 
 module.exports = app;
