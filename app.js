@@ -7,8 +7,6 @@ let moment = require("moment-timezone");
 const baseService = require("./services/base.service");
 const baseService2 = require("./dynamic/services/base.service");
 const lineHelper2 = require("./dynamic/services/line-helper");
-const lineHelper3 = require("./casestudy/services/line-helper");
-const baseService3 = require("./casestudy/services/base.service");
 const bodyParser = require('body-parser');
 const sheetHelper = require("./services/google/google-sheet-helper");
 
@@ -139,9 +137,7 @@ async function main() {
  * 讀書會 schedule events 
  */
 // 0 0 * * * => AM8:00 at Taipei/Asia
-cron.schedule('0 1 * * *',main());
-
-main();
+cron.schedule('0 1 * * *', main);
 
 // 0 1 * * * => AM8:00 at Taipei/Asia
 // cron.schedule('0 0 * * *', async () => {
