@@ -40,11 +40,7 @@ async function readFromGoogleSheetssss(dataRange) {
   return r;
 }
 
-/* 
- * 讀書會 schedule events 
- */
-// 0 0 * * * => AM8:00 at Taipei/Asia
-cron.schedule('0 1 * * *', async () => {
+async function main() {
   console.log("notify at 09:00 in Taiwan");
   try {
     let scheduleDates = await baseService.readDateList();
@@ -53,7 +49,7 @@ cron.schedule('0 1 * * *', async () => {
     scheduleDates = scheduleDates.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
 
     if (scheduleDates !== "") {
-      if (baseService.isRemainTenDays(now, scheduleDates2[0])) {
+      if (baseService.isRemainTenDays(now, scheduleDates[0])) {
         lineHelper.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
       }
 
@@ -77,7 +73,7 @@ cron.schedule('0 1 * * *', async () => {
 
       }
 
-      else if (baseService.isPlusFourteenDays(now, scheduleDates2[0])) {
+      else if (baseService.isPlusFourteenDays(now, scheduleDates[0])) {
         lineHelper.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
 
         // //housekeeping
@@ -136,7 +132,16 @@ cron.schedule('0 1 * * *', async () => {
   } catch (e) {
     console.log(e);
   }
-});
+}
+
+
+/* 
+ * 讀書會 schedule events 
+ */
+// 0 0 * * * => AM8:00 at Taipei/Asia
+cron.schedule('0 1 * * *',main());
+
+main();
 
 // 0 1 * * * => AM8:00 at Taipei/Asia
 // cron.schedule('0 0 * * *', async () => {
