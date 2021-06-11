@@ -61,14 +61,12 @@ async function main() {
       }
 
       else if (baseService.isToday(now, scheduleDates[0])) {
-    //    lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      //  lineHelper.pushActivityMsg2To('Cab8dc815286247966f63012fb4dd64e4');
+       lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
+       lineHelper.pushActivityMsg2To('Cab8dc815286247966f63012fb4dd64e4');
       }
 
       else if (baseService.isDPlusOneDay(now, scheduleDates[0])) {
         lineHelper.pushRetroMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-
-
       }
 
       else if (baseService.isPlusFourteenDays(now, scheduleDates[0])) {
