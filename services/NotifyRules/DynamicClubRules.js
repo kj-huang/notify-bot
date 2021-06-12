@@ -6,6 +6,7 @@ class AuditMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(7, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -21,6 +22,7 @@ class MarketingMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(3, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -36,6 +38,7 @@ class ActivityMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -51,6 +54,7 @@ class ActionMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -66,6 +70,7 @@ class MeetingMarketingMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -81,6 +86,7 @@ class MeetingFBMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -96,6 +102,7 @@ class RetroMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).add(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -111,6 +118,7 @@ class PostAuditMessage {
     constructor(today) {
         this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -120,6 +128,18 @@ class PostAuditMessage {
     }
 }
 
+class RemoveData {
+    today;
+
+    constructor(today) {
+        this.today = today;
+    }
+
+    CheckNotifyDate(scheduledDate) {
+        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
+        return date === this.today ? 'True': 'False';
+    }
+}
 
 module.exports = {
     AuditMessage: AuditMessage,
@@ -129,5 +149,6 @@ module.exports = {
     MeetingMarketingMessage: MeetingMarketingMessage,
     MeetingFBMessage: MeetingFBMessage,
     RetroMessage: RetroMessage,
-    PostAuditMessage: PostAuditMessage
+    PostAuditMessage: PostAuditMessage,
+    RemoveData: RemoveData
 };

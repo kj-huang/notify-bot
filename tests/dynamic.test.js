@@ -16,6 +16,7 @@ describe('Dynamic Club Rules', function () {
         dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
         dynamicRule.push(new DynamicClubRules.RetroMessage(today));
         dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
+        dynamicRule.push(new DynamicClubRules.RemoveData(today));
 
         notificationRuleEngine = new NotificationRuleEngine(dynamicRule);
         return notificationRuleEngine.CheckNotifyDate(scheduledDate);

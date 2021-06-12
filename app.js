@@ -18,65 +18,75 @@ let DynamicClubRules = require('./services/NotifyRules/DynamicClubRules');
 //Roger Ub39c328baddea9fd4204d4edb166dc80
 
 async function main() {
-  console.log("notify at 09:00 in Taiwan");
-  let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-
-  await sendMessageToStatisticClub(now);
-  await sendMessageToDynamicClub(now);
+    console.log("notify at 09:00 in Taiwan");
+    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    await sendMessageToStatisticClub(now);
+    await sendMessageToDynamicClub(now);
 }
 
 async function sendMessageToStatisticClub(now) {
-  let scheduledDate = await baseService.readDateList();
-  scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
-  let messages = StatisticRulesFactory(now, scheduledDate);
-
-  for (const m of messages) {
-    await LineBot.pushText(process.env.LINE_STATISTIC_ID, m);
-  }
+    let scheduledDate = await baseService.readDateList();
+    scheduledDate = scheduledDate.split("\n");
+    let statics = StatisticRulesFactory(now);
+    let messages = statics.CheckNotifyDate(scheduledDate[0]);
+    for (const m of messages) {
+        if (typeof (m) === 'string' && m!=='False')
+            await LineBot.pushText(process.env.LINE_STATISTIC_ID, m);
+            // console.log(m);
+        if (m === 'True') {
+            await statics.RemoveDataFromFile('./ScheduleDate.txt', scheduledDate);
+        }
+    }
 }
 
 async function sendMessageToDynamicClub(now) {
-  let scheduledDate = await baseService2.readDateList();
-  scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
-  let messages = DynamicRulesFactory(now, scheduledDate);
+    let scheduledDate = await baseService2.readDateList();
+    scheduledDate = scheduledDate.split("\n");
+    let dynamic = DynamicRulesFactory(now);
 
-  for (const m of messages) {
-    await LineBot2.pushText(process.env.LINE_DYNAMIC_ID, m);
-  }
+    let messages = dynamic.CheckNotifyDate(scheduledDate[0]);
+    for (const m of messages) {
+        if (typeof (m) === 'string' && m !== 'False')
+            await LineBot2.pushText(process.env.LINE_DYNAMIC_ID, m);
+            // console.log(m);
+        if (m === 'True') {
+            await dynamic.RemoveDataFromFile('./scheduleDynamicDate.txt', scheduledDate);
+        }
+    }
+
 }
 
-function StatisticRulesFactory(now, scheduledDate) {
-  let today = now;
+function StatisticRulesFactory(now) {
+    let today = now;
+    let statisticRule = [];
+    statisticRule.push(new StatisticClubRules.AuditMessage(today));
+    statisticRule.push(new StatisticClubRules.MarketingMessage(today));
+    statisticRule.push(new StatisticClubRules.ActivityMessage(today));
+    statisticRule.push(new StatisticClubRules.ActionMessage(today));
+    statisticRule.push(new StatisticClubRules.MeetingMarketingMessage(today));
+    statisticRule.push(new StatisticClubRules.MeetingFBMessage(today));
+    statisticRule.push(new StatisticClubRules.RetroMessage(today));
+    statisticRule.push(new StatisticClubRules.PostAuditMessage(today));
+    statisticRule.push(new StatisticClubRules.RemoveData(today));
 
-  let statisticRule = [];
-  statisticRule.push(new StatisticClubRules.AuditMessage(today));
-  statisticRule.push(new StatisticClubRules.MarketingMessage(today));
-  statisticRule.push(new StatisticClubRules.ActivityMessage(today));
-  statisticRule.push(new StatisticClubRules.ActionMessage(today));
-  statisticRule.push(new StatisticClubRules.MeetingMarketingMessage(today));
-  statisticRule.push(new StatisticClubRules.MeetingFBMessage(today));
-  statisticRule.push(new StatisticClubRules.RetroMessage(today));
-  statisticRule.push(new StatisticClubRules.PostAuditMessage(today));
-
-  let notificationRuleEngine = new NotificationRuleEngine(statisticRule);
-  return notificationRuleEngine.CheckNotifyDate(scheduledDate);
+    return new NotificationRuleEngine(statisticRule);
 }
 
-function DynamicRulesFactory(now, scheduledDate) {
-  let today = now;
+function DynamicRulesFactory(now) {
+    let today = now;
 
-  let dynamicRule = [];
-  dynamicRule.push(new DynamicClubRules.AuditMessage(today));
-  dynamicRule.push(new DynamicClubRules.MarketingMessage(today));
-  dynamicRule.push(new DynamicClubRules.ActivityMessage(today));
-  dynamicRule.push(new DynamicClubRules.ActionMessage(today));
-  dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage(today));
-  dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
-  dynamicRule.push(new DynamicClubRules.RetroMessage(today));
-  dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
+    let dynamicRule = [];
+    dynamicRule.push(new DynamicClubRules.AuditMessage(today));
+    dynamicRule.push(new DynamicClubRules.MarketingMessage(today));
+    dynamicRule.push(new DynamicClubRules.ActivityMessage(today));
+    dynamicRule.push(new DynamicClubRules.ActionMessage(today));
+    dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage(today));
+    dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
+    dynamicRule.push(new DynamicClubRules.RetroMessage(today));
+    dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
+    dynamicRule.push(new DynamicClubRules.RemoveData(today));
 
-  let notificationRuleEngine = new NotificationRuleEngine(dynamicRule);
-  return notificationRuleEngine.CheckNotifyDate(scheduledDate);
+    return new NotificationRuleEngine(dynamicRule);
 }
 
 
@@ -84,24 +94,24 @@ function DynamicRulesFactory(now, scheduledDate) {
  * 讀書會 schedule events 
  */
 // 0 0 * * * => AM8:00 at Taipei/Asia
-cron.schedule('0 1 * * *', main);
-
-const handleEvent = (event) => {
-  const { type, replyToken, message } = event;
-  const messageType = message.type;
-  if (type !== 'message' || messageType !== 'text') {
-    return Promise.resolve(null);
-  }
-  console.log(event.source)
-};
-
-app.post('/webhook', (req, res) => {
-  const { body } = req;
-  const { events } = body;
-
-  Promise.all(events.map(handleEvent))
-    .then((result) => res.status(200).send(result))
-    .catch((err) => console.log(err));
-});
+// cron.schedule('0 1 * * *', main);
+main();
+// const handleEvent = (event) => {
+//   const { type, replyToken, message } = event;
+//   const messageType = message.type;
+//   if (type !== 'message' || messageType !== 'text') {
+//     return Promise.resolve(null);
+//   }
+//   console.log(event.source)
+// };
+//
+// app.post('/webhook', (req, res) => {
+//   const { body } = req;
+//   const { events } = body;
+//
+//   Promise.all(events.map(handleEvent))
+//     .then((result) => res.status(200).send(result))
+//     .catch((err) => console.log(err));
+// });
 
 module.exports = app;

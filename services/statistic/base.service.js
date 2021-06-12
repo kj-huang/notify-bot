@@ -2,7 +2,7 @@ let functions = {};
 
 const path = require('path');
 const fs = require('fs');
-let filePath = path.join(__dirname, '../scheduleDate.txt');
+let filePath = path.join(__dirname, '../../scheduleDate.txt');
 console.log(filePath);
 
 functions.readDateList = async function () {

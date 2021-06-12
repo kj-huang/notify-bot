@@ -1,14 +1,15 @@
 const fs = require('fs');
 let model = {};
 
-model.readDateList = async function(){
-    let data = await fs.readFileSync('./ScheduleDate.txt', 'utf-8');
+model.readDateList = async function (fileName) {
+    let data = await fs.readFileSync(fileName, 'utf-8');
     return data;
 }
 
-model.updateDateList = async function(data){
+model.updateDateList = async function (fileName, data) {
     let str = data.join("\n");
-    await fs.writeFileSync('./ScheduleDate.txt', str);
+    console.log(fileName, data)
+    await fs.writeFileSync(fileName, str);
 }
 
 module.exports = model;

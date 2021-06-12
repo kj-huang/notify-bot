@@ -1,3 +1,5 @@
+const DataAccess = require("../DataAccess");
+
 class NotificationRuleEngine {
     rules = [];
 
@@ -6,16 +8,20 @@ class NotificationRuleEngine {
     }
 
     CheckNotifyDate(scheduledDate) {
-        console.log(this.rules);
         let res = [];
         this.rules.forEach((rule) => {
-            console.log(rule);
             let result = rule.CheckNotifyDate(scheduledDate);
-            if (result !== '') {
+            if (result !== '' && typeof (result) !== "boolean") {
                 res.push(result);
             }
         });
         return res;
+    }
+
+
+    async RemoveDataFromFile(fileName, data) {
+        data.shift();
+        await DataAccess.updateDateList(fileName, data);
     }
 }
 

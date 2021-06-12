@@ -16,6 +16,7 @@ describe('Static Club Rules', function () {
         statisticRule.push(new StatisticClubRules.MeetingFBMessage(today));
         statisticRule.push(new StatisticClubRules.RetroMessage(today));
         statisticRule.push(new StatisticClubRules.PostAuditMessage(today));
+        statisticRule.push(new StatisticClubRules.RemoveData(today));
 
         notificationRuleEngine = new NotificationRuleEngine(statisticRule);
         return notificationRuleEngine.CheckNotifyDate(scheduledDate);
@@ -62,9 +63,9 @@ describe('Static Club Rules', function () {
     });
     it('should have PostAudit Message', function () {
         let result = StatisticRulesFactory('20210703', '20210619');
-        expect(result.length).toBe(1);
+        expect(result.length).toBe(2);
         expect(result).toEqual(
-            expect.arrayContaining(["提醒會員組虹秋稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群"])
+            expect.arrayContaining(["提醒會員組虹秋稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群", "True"])
         );
     });
 

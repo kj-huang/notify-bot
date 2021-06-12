@@ -9,7 +9,6 @@ class AuditMessage {
 
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(7, 'days').tz("Asia/Taipei").format("YYYYMMDD");
-        console.log(date, this.today);
         if (date === this.today) {
             return '提醒會員組虹秋開始準備稽核，第一次的稽核是稽核是否有填會員表連續五次出席讀書會，及有報名未出席讀書會，稽核對象為跑統計學術群、實務群及大大社群';
         }
@@ -128,7 +127,18 @@ class PostAuditMessage {
         return '';
     }
 }
+class RemoveData {
+    today;
 
+    constructor(today) {
+        this.today = today;
+    }
+
+    CheckNotifyDate(scheduledDate) {
+        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
+        return date === this.today ? 'True': 'False';
+    }
+}
 
 module.exports = {
     AuditMessage: AuditMessage,
@@ -138,5 +148,6 @@ module.exports = {
     MeetingMarketingMessage: MeetingMarketingMessage,
     MeetingFBMessage: MeetingFBMessage,
     RetroMessage: RetroMessage,
-    PostAuditMessage: PostAuditMessage
+    PostAuditMessage: PostAuditMessage,
+    RemoveData: RemoveData
 };
