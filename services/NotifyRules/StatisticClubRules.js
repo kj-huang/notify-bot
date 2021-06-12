@@ -3,11 +3,13 @@ let moment = require("moment-timezone");
 class AuditMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(7, 'days').tz("Asia/Taipei").format("YYYYMMDD");
+        console.log(date, this.today);
         if (date === this.today) {
             return '提醒會員組虹秋開始準備稽核，第一次的稽核是稽核是否有填會員表連續五次出席讀書會，及有報名未出席讀書會，稽核對象為跑統計學術群、實務群及大大社群';
         }
@@ -18,9 +20,10 @@ class AuditMessage {
 class MarketingMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(3, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -33,9 +36,10 @@ class MarketingMessage {
 class ActivityMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -48,9 +52,10 @@ class ActivityMessage {
 class ActionMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -63,9 +68,10 @@ class ActionMessage {
 class MeetingMarketingMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -78,9 +84,10 @@ class MeetingMarketingMessage {
 class MeetingFBMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
@@ -93,11 +100,12 @@ class MeetingFBMessage {
 class RetroMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
-        let date = moment(scheduledDate).add(1, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+        let date = moment(scheduledDate).add(1, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
             return '資訊組 宜蓁：提醒今天要提供給三大社群這次分享的FB影片及下次活動DM。主群則提供影片連結，Robot 溫馨提醒';
         }
@@ -108,11 +116,12 @@ class RetroMessage {
 class PostAuditMessage {
     today;
 
-    constructor() {
-        this.today = moment().tz("Asia/Taipei").format("YYYYMMDD");
+    constructor(today) {
+        this.today = today;
     }
+
     CheckNotifyDate(scheduledDate) {
-        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD"));
+        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
             return '提醒會員組虹秋稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群';
         }

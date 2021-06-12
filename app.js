@@ -1,9 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const cron = require('node-cron');
-const baseService = require("./services/base.service");
-const baseService2 = require("./dynamic/services/base.service");
-const LineBot = require("./services/linebot/line_init");
+const baseService = require("./services/statistic/base.service");
+const baseService2 = require("./services/dynamic/base.service");
+const LineBot = require("./services/statistic/linebot/line_init");
+const LineBot2 = require("./services/dynamic/linebot/line_init");
 let app = express();
 let moment = require("moment-timezone");
 let NotificationRuleEngine = require('./services/NotifyRules/NotificationRuleEngine');
@@ -27,54 +28,57 @@ async function main() {
 async function sendMessageToStatisticClub(now) {
   let scheduledDate = await baseService.readDateList();
   scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
-  let messages = StatisticClubMessageFactory(scheduledDate);
+  let messages = StatisticRulesFactory(now, scheduledDate);
 
-  messages.forEach(async (m) => {
+  for (const m of messages) {
     await LineBot.pushText(process.env.LINE_STATISTIC_ID, m);
-  })
+  }
 }
 
 async function sendMessageToDynamicClub(now) {
   let scheduledDate = await baseService2.readDateList();
   scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
-  let messages = DynamicClubMessageFactory(scheduledDate);
+  let messages = DynamicRulesFactory(now, scheduledDate);
 
-  messages.forEach(async (m) => {
-    await LineBot.pushText(process.env.LINE_DYNAMIC_ID, m);
-  })
+  for (const m of messages) {
+    await LineBot2.pushText(process.env.LINE_DYNAMIC_ID, m);
+  }
 }
 
-function StatisticClubMessageFactory(scheduledDate) {
+function StatisticRulesFactory(now, scheduledDate) {
+  let today = now;
+
   let statisticRule = [];
-  statisticRule.push(new StatisticClubRules.AuditMessage())
-  statisticRule.push(new StatisticClubRules.MarketingMessage())
-  statisticRule.push(new StatisticClubRules.ActivityMessage())
-  statisticRule.push(new StatisticClubRules.ActionMessage())
-  statisticRule.push(new StatisticClubRules.MeetingMarketingMessage())
-  statisticRule.push(new StatisticClubRules.MeetingFBMessage())
-  statisticRule.push(new StatisticClubRules.RetroMessage())
-  statisticRule.push(new StatisticClubRules.PostAuditMessage())
+  statisticRule.push(new StatisticClubRules.AuditMessage(today));
+  statisticRule.push(new StatisticClubRules.MarketingMessage(today));
+  statisticRule.push(new StatisticClubRules.ActivityMessage(today));
+  statisticRule.push(new StatisticClubRules.ActionMessage(today));
+  statisticRule.push(new StatisticClubRules.MeetingMarketingMessage(today));
+  statisticRule.push(new StatisticClubRules.MeetingFBMessage(today));
+  statisticRule.push(new StatisticClubRules.RetroMessage(today));
+  statisticRule.push(new StatisticClubRules.PostAuditMessage(today));
 
   let notificationRuleEngine = new NotificationRuleEngine(statisticRule);
-
   return notificationRuleEngine.CheckNotifyDate(scheduledDate);
 }
 
-function DynamicClubMessageFactory(scheduledDate) {
+function DynamicRulesFactory(now, scheduledDate) {
+  let today = now;
+
   let dynamicRule = [];
-  // dynamicRule.push(new DynamicClubRules.AuditMessage())
-  dynamicRule.push(new DynamicClubRules.MarketingMessage())
-  dynamicRule.push(new DynamicClubRules.ActivityMessage())
-  dynamicRule.push(new DynamicClubRules.ActionMessage())
-  dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage())
-  dynamicRule.push(new DynamicClubRules.MeetingFBMessage())
-  dynamicRule.push(new DynamicClubRules.RetroMessage())
-  // dynamicRule.push(new DynamicClubRules.PostAuditMessage())
+  dynamicRule.push(new DynamicClubRules.AuditMessage(today));
+  dynamicRule.push(new DynamicClubRules.MarketingMessage(today));
+  dynamicRule.push(new DynamicClubRules.ActivityMessage(today));
+  dynamicRule.push(new DynamicClubRules.ActionMessage(today));
+  dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage(today));
+  dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
+  dynamicRule.push(new DynamicClubRules.RetroMessage(today));
+  dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
 
   let notificationRuleEngine = new NotificationRuleEngine(dynamicRule);
-
   return notificationRuleEngine.CheckNotifyDate(scheduledDate);
 }
+
 
 /* 
  * 讀書會 schedule events 

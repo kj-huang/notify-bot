@@ -6,24 +6,25 @@
   "scripts": {
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
-    "test": "mocha \"./tests/**/*.js\" --recursive"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "chai": "^4.2.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "google-auth-library": "^0.10.0",
-    "googleapis": "^47.0.0",
-    "messaging-api-line": "^0.8.0-alpha.0",
-    "mocha": "^6.1.4",
+    "messaging-api-line": "^1.0.4",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "node-cron": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
+    "nodemon": "^2.0.7",
+    "sinon": "^11.1.1"
   }
 }
