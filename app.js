@@ -1,17 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cron = require('node-cron');
-const lineHelper = require("./services/line-helper");
-let app = express();
-let moment = require("moment-timezone");
 const baseService = require("./services/base.service");
 const baseService2 = require("./dynamic/services/base.service");
-const lineHelper2 = require("./dynamic/services/line-helper");
-const bodyParser = require('body-parser');
-const sheetHelper = require("./services/google/google-sheet-helper");
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const LineBot = require("./services/linebot/line_init");
+let app = express();
+let moment = require("moment-timezone");
+let NotificationRuleEngine = require('./services/NotifyRules/NotificationRuleEngine');
+let StatisticClubRules = require('./services/NotifyRules/StatisticClubRules');
+let DynamicClubRules = require('./services/NotifyRules/DynamicClubRules');
 
 //跑統計社 Cab8dc815286247966f63012fb4dd64e4
 //動態競爭 Cf62c1689b42440bd588d9b3eb063dd05
@@ -19,117 +16,65 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Me U9001a7b94e9039fbfd7938f5801e78c9
 //Roger Ub39c328baddea9fd4204d4edb166dc80
 
-//dataRange = "跑統計社!A22:B33"
-async function readFromGoogleSheet(dataRange) {
-  let s = new sheetHelper("16lC0e5TFTq83Qs6PncZPI5t7-3HeYxCZAJDI_1kOUmU");
-  await s.getAuthorize();
-  let l = await s.ReadDataFrom(dataRange);
-  let r = l.map((a) => { return new Date(`${a[1].split('/')[0]}-${a[1].split('/')[1]}-${a[1].split('/')[2]}`); });
-
-  return r;
-}
-
-async function readFromGoogleSheetssss(dataRange) {
-  let s = new sheetHelper("16lC0e5TFTq83Qs6PncZPI5t7-3HeYxCZAJDI_1kOUmU");
-  await s.getAuthorize();
-  let l = await s.ReadDataFrom(dataRange);
-  let r = l.map((a) => { let d= new Date(`${a[0].split('/')[0]}-${a[0].split('/')[1]}-${a[0].split('/')[2]}`); let s = a[1]; return {d, s} });
-
-  return r;
-}
-
 async function main() {
   console.log("notify at 09:00 in Taiwan");
-  try {
-    let scheduleDates = await baseService.readDateList();
+  let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
 
-    let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-    scheduleDates = scheduleDates.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
-
-    if (scheduleDates !== "") {
-      if (baseService.isRemainTenDays(now, scheduleDates[0])) {
-        lineHelper.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-      }
-
-      if (baseService.isRemainThreeDays(now, scheduleDates[0])) {
-        lineHelper.pushMarketingMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      }
-
-      else if (baseService.isRemainOneDays(now, scheduleDates[0])) {
-        lineHelper.pushMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-        lineHelper.pushActMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      }
-
-      else if (baseService.isToday(now, scheduleDates[0])) {
-       lineHelper.pushActivityMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-       lineHelper.pushActivityMsg2To('Cab8dc815286247966f63012fb4dd64e4');
-      }
-
-      else if (baseService.isDPlusOneDay(now, scheduleDates[0])) {
-        lineHelper.pushRetroMsgTo('Cab8dc815286247966f63012fb4dd64e4');
-      }
-
-      else if (baseService.isPlusFourteenDays(now, scheduleDates[0])) {
-        lineHelper.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-
-        // //housekeeping
-        scheduleDates.shift();
-        // //write back to file
-        await baseService.updateDateList(scheduleDates);
-      }
-    } else {
-      console.log("No schedule Date!");
-    }
-
-    let scheduleDates2 = await baseService2.readDateList();
-
-    scheduleDates2 = scheduleDates2.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) })
-
-    if (scheduleDates2 !== "") {
-      // if (baseService2.isRemainTenDays(now, scheduleDates2[0])) {
-      //   lineHelper2.pushAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-      // }
-      if (baseService2.isRemainThreeDays(now, scheduleDates2[0])) {
-        lineHelper2.pushMarketingMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-      }
-
-      else if (baseService2.isRemainOneDays(now, scheduleDates2[0])) {
-        lineHelper2.pushActMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushActMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
-      }
-
-      else if (baseService2.isToday(now, scheduleDates2[0])) {
-        lineHelper2.pushActivityMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-        lineHelper2.pushActivityMsg2To('Cf62c1689b42440bd588d9b3eb063dd05');
-      }
-
-      else if (baseService2.isDPlusOneDay(now, scheduleDates2[0])) {
-        lineHelper2.pushRetroMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-
-        scheduleDates2.shift();
-        // //write back to file
-        await baseService2.updateDateList(scheduleDates2);
-      }
-
-      // else if (baseService2.isPlusFourteenDays(now, scheduleDates2[0])) {
-      //   lineHelper2.pushRetroAuditMsgTo('Cf62c1689b42440bd588d9b3eb063dd05');
-
-      //   // //housekeeping
-      //   scheduleDates2.shift();
-      //   // //write back to file
-      //   await baseService2.updateDateList(scheduleDates2);
-      // }
-    } else {
-      console.log("No schedule Date!");
-    }
-
-    
-
-  } catch (e) {
-    console.log(e);
-  }
+  await sendMessageToStatisticClub(now);
+  await sendMessageToDynamicClub(now);
 }
 
+async function sendMessageToStatisticClub(now) {
+  let scheduledDate = await baseService.readDateList();
+  scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
+  let messages = StatisticClubMessageFactory(scheduledDate);
+
+  messages.forEach(async (m) => {
+    await LineBot.pushText(process.env.LINE_STATISTIC_ID, m);
+  })
+}
+
+async function sendMessageToDynamicClub(now) {
+  let scheduledDate = await baseService2.readDateList();
+  scheduledDate = scheduledDate.split('\r\n').filter((a) => { return moment(a).isSameOrAfter(now) });
+  let messages = DynamicClubMessageFactory(scheduledDate);
+
+  messages.forEach(async (m) => {
+    await LineBot.pushText(process.env.LINE_DYNAMIC_ID, m);
+  })
+}
+
+function StatisticClubMessageFactory(scheduledDate) {
+  let statisticRule = [];
+  statisticRule.push(new StatisticClubRules.AuditMessage())
+  statisticRule.push(new StatisticClubRules.MarketingMessage())
+  statisticRule.push(new StatisticClubRules.ActivityMessage())
+  statisticRule.push(new StatisticClubRules.ActionMessage())
+  statisticRule.push(new StatisticClubRules.MeetingMarketingMessage())
+  statisticRule.push(new StatisticClubRules.MeetingFBMessage())
+  statisticRule.push(new StatisticClubRules.RetroMessage())
+  statisticRule.push(new StatisticClubRules.PostAuditMessage())
+
+  let notificationRuleEngine = new NotificationRuleEngine(statisticRule);
+
+  return notificationRuleEngine.CheckNotifyDate(scheduledDate);
+}
+
+function DynamicClubMessageFactory(scheduledDate) {
+  let dynamicRule = [];
+  // dynamicRule.push(new DynamicClubRules.AuditMessage())
+  dynamicRule.push(new DynamicClubRules.MarketingMessage())
+  dynamicRule.push(new DynamicClubRules.ActivityMessage())
+  dynamicRule.push(new DynamicClubRules.ActionMessage())
+  dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage())
+  dynamicRule.push(new DynamicClubRules.MeetingFBMessage())
+  dynamicRule.push(new DynamicClubRules.RetroMessage())
+  // dynamicRule.push(new DynamicClubRules.PostAuditMessage())
+
+  let notificationRuleEngine = new NotificationRuleEngine(dynamicRule);
+
+  return notificationRuleEngine.CheckNotifyDate(scheduledDate);
+}
 
 /* 
  * 讀書會 schedule events 
@@ -137,86 +82,13 @@ async function main() {
 // 0 0 * * * => AM8:00 at Taipei/Asia
 cron.schedule('0 1 * * *', main);
 
-// 0 1 * * * => AM8:00 at Taipei/Asia
-// cron.schedule('0 0 * * *', async () => {
-//   console.log("notify at 08:00 in Taiwan");
-//   try {
-//     let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18");
-//     let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-//
-//     scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
-//       return new Date(a.d) - new Date(b.d);
-//     });
-//
-//     if (moment(scheduleDates4[0].d).format("YYYYMMDD") == now) {
-//       lineHelper3.pushMsg('C071ecfc78589b2f4840980c15059c681', scheduleDates4[0].s)
-//     } else {
-//       console.log("No schedule Date!");
-//     }
-//
-//   } catch(e){
-//     //U9001a7b94e9039fbfd7938f5801e78c9
-//     lineHelper3.errorMsg('U9001a7b94e9039fbfd7938f5801e78c9', e);
-//   }
-// })
-
-//fetch group ID
-// const handleEvent = (event) => {
-//   const { type, replyToken, message } = event;
-//   const messageType = message.type;
-//   console.log(event.source);
-//   return Promise.resolve(null);
-// };
-// app.post('/webhook', (req, res)=>{
-//   const { body } = req;
-
-// const { events } = body;
-//   Promise.all(events.map(handleEvent))
-//     .then((result) => res.status(200).send(result))
-//     .catch((err) => console.log(err));
-// })
-
-app.get('/', async function (req, res) {
-//   let now = moment().tz("Asia/Taipei").format("YYYYMMDD");
-//   let scheduleDates = await readFromGoogleSheet("跑統計社!A22:B33")
-//   console.log(scheduleDates)
-//   scheduleDates = scheduleDates.filter((a) => { return moment(a).isSameOrAfter(now) });
-
-//   let scheduleDates2 = await readFromGoogleSheet("動態競爭!A21:B32")
-//   console.log(scheduleDates2)
-//   scheduleDates2 = scheduleDates2.filter((a) => { return moment(a).isSameOrAfter(now) })
-
-//   // let scheduleDates3 = await readFromGoogleSheet("快艇!A24:B26")
-//   // console.log(scheduleDates3)
-//   // scheduleDates3 = scheduleDates3.filter((a) => { return moment(a).isAfter(now) })
-
-//   // let scheduleDates4 = await readFromGoogleSheet("快艇!A31:B32")
-//   // console.log(scheduleDates4)
-//   // scheduleDates4 = scheduleDates4.filter((a) => { return moment(a).isAfter(now) })
-
-//   let scheduleDates4 = await readFromGoogleSheetssss("快艇!B2:C18")
-//   scheduleDates4 = scheduleDates4.filter((a) => { return moment(a.d).isSameOrAfter(now) }).sort(function(a,b){
-//     return new Date(a.d) - new Date(b.d);
-//   });
-
-//   res.json({ statistic: scheduleDates, dynamic: scheduleDates2, casestudy: scheduleDates4 })
-  res.json('success')
-});
-
 const handleEvent = (event) => {
   const { type, replyToken, message } = event;
   const messageType = message.type;
   if (type !== 'message' || messageType !== 'text') {
     return Promise.resolve(null);
   }
-
   console.log(event.source)
-  // if (verifyEvents.includes(replyToken)) return Promise.resolve(null);
-//   return client.reply(replyToken, [
-//     Line.createText('Hello'),
-//     Line.createImage(imageUrl),
-//     Line.createText('End'),
-//   ]);
 };
 
 app.post('/webhook', (req, res) => {
@@ -227,7 +99,5 @@ app.post('/webhook', (req, res) => {
     .then((result) => res.status(200).send(result))
     .catch((err) => console.log(err));
 });
-
-
 
 module.exports = app;
