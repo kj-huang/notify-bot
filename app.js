@@ -94,24 +94,24 @@ function DynamicRulesFactory(now) {
  * 讀書會 schedule events 
  */
 // 0 0 * * * => AM8:00 at Taipei/Asia
-// cron.schedule('0 1 * * *', main);
-main();
-// const handleEvent = (event) => {
-//   const { type, replyToken, message } = event;
-//   const messageType = message.type;
-//   if (type !== 'message' || messageType !== 'text') {
-//     return Promise.resolve(null);
-//   }
-//   console.log(event.source)
-// };
-//
-// app.post('/webhook', (req, res) => {
-//   const { body } = req;
-//   const { events } = body;
-//
-//   Promise.all(events.map(handleEvent))
-//     .then((result) => res.status(200).send(result))
-//     .catch((err) => console.log(err));
-// });
+cron.schedule('0 1 * * *', main);
+
+const handleEvent = (event) => {
+  const { type, replyToken, message } = event;
+  const messageType = message.type;
+  if (type !== 'message' || messageType !== 'text') {
+    return Promise.resolve(null);
+  }
+  console.log(event.source)
+};
+
+app.post('/webhook', (req, res) => {
+  const { body } = req;
+  const { events } = body;
+
+  Promise.all(events.map(handleEvent))
+    .then((result) => res.status(200).send(result))
+    .catch((err) => console.log(err));
+});
 
 module.exports = app;
