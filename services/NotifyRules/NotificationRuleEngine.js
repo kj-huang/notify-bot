@@ -11,7 +11,7 @@ class NotificationRuleEngine {
         let res = [];
         this.rules.forEach((rule) => {
             let result = rule.CheckNotifyDate(scheduledDate);
-            if (result !== '' && typeof (result) !== "boolean") {
+            if (result && result !== '' && typeof (result) !== "boolean") {
                 res.push(result);
             }
         });

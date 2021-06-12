@@ -38,12 +38,6 @@ describe('notification Rule Engine', function () {
         notificationRuleEngine.RemoveDataFromFile('fakeFile.txt', ["20210619", "20210731"]);
         expect(DataAccess.updateDateList.calledOnce).toBe(true);
     });
-    it('should not call remove data function', function () {
-        let result = StatisticRulesFactory('20210619', '20210619');
-        notificationRuleEngine.RemoveDataFromFile('fakeFile.txt', ['20210619, 20210731']);
-        expect(DataAccess.updateDateList.calledOnce).toBe(false);
-    });
-
 
     afterEach(function () {
         sandbox.restore();

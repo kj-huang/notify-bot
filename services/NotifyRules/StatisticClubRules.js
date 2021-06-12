@@ -1,4 +1,5 @@
-let moment = require("moment-timezone");
+let moment;
+moment = require("moment-timezone");
 
 class AuditMessage {
     today;
@@ -136,7 +137,9 @@ class RemoveData {
 
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
-        return date === this.today ? 'True': 'False';
+        if (date === this.today) {
+            return "True";
+        }
     }
 }
 

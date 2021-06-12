@@ -59,7 +59,7 @@ describe('Dynamic Club Rules', function () {
     });
     it('should have PostAudit Message', function () {
         let result = DynamicRulesFactory('20210703', '20210619');
-        expect(result.length).toBe(1);
+        expect(result.length).toBe(2);
         expect(result).toEqual(
             expect.arrayContaining(["提醒會員組虹秋稽核是否有加入大大社群，稽核對象為動態競爭相關社群"])
         );

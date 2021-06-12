@@ -8,7 +8,6 @@ model.readDateList = async function (fileName) {
 
 model.updateDateList = async function (fileName, data) {
     let str = data.join("\n");
-    console.log(fileName, data)
     await fs.writeFileSync(fileName, str);
 }
 
