@@ -30,7 +30,7 @@ async function sendMessageToStatisticClub(now) {
     let statics = StatisticRulesFactory(now);
     let messages = statics.CheckNotifyDate(scheduledDate[0]);
     for (const m of messages) {
-        if (typeof (m) === 'string' && m!=='False')
+        if (typeof (m) === 'string' && m!=='False' && m !== 'True')
             await LineBot.pushText(process.env.LINE_STATISTIC_ID, m);
             // console.log(m);
         if (m === 'True') {
@@ -46,7 +46,7 @@ async function sendMessageToDynamicClub(now) {
 
     let messages = dynamic.CheckNotifyDate(scheduledDate[0]);
     for (const m of messages) {
-        if (typeof (m) === 'string' && m !== 'False')
+        if (typeof (m) === 'string' && m !== 'False' && m !=='True')
             await LineBot2.pushText(process.env.LINE_DYNAMIC_ID, m);
             // console.log(m);
         if (m === 'True') {

@@ -27,7 +27,7 @@ class MarketingMessage {
     CheckNotifyDate(scheduledDate) {
         let date = moment(scheduledDate).subtract(3, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
-            return 'Robot提醒1.活動組 世嵩：提醒你今天需在各大群組發佈下週二的讀書會主題。\nRobot提醒2.活動組 世嵩：提醒你今天需在主群組接龍開始報名這次的活動，記得放活動DM。';
+            return 'Robot提醒1.活動組 世嵩：提醒你今天需在各大群組發佈本週四的讀書會主題。\nRobot提醒2.活動組 世嵩：提醒你今天需在主群組接龍開始報名這次的活動，記得放活動DM。';
         }
         return '';
     }

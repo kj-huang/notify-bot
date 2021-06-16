@@ -33,7 +33,7 @@ describe('Dynamic Club Rules', function () {
         let result = DynamicRulesFactory('20210616', '20210619');
         expect(result.length).toBe(1);
         expect(result).toEqual(
-            expect.arrayContaining(['Robot提醒1.活動組 世嵩：提醒你今天需在各大群組發佈下週二的讀書會主題。\nRobot提醒2.活動組 世嵩：提醒你今天需在主群組接龍開始報名這次的活動，記得放活動DM。'])
+            expect.arrayContaining(['Robot提醒1.活動組 世嵩：提醒你今天需在各大群組發佈本週四的讀書會主題。\nRobot提醒2.活動組 世嵩：提醒你今天需在主群組接龍開始報名這次的活動，記得放活動DM。'])
         );
     });
     it('should have Action and Activity Message', function () {
