@@ -7,9 +7,8 @@ const LineBot = require("./services/statistic/linebot/line_init");
 const LineBot2 = require("./services/dynamic/linebot/line_init");
 let app = express();
 let moment = require("moment-timezone");
-let NotificationRuleEngine = require('./services/NotifyRules/NotificationRuleEngine');
-let StatisticClubRules = require('./services/NotifyRules/StatisticClubRules');
-let DynamicClubRules = require('./services/NotifyRules/DynamicClubRules');
+const StatisticRulesFactory = require("./services/NotifyRules/StatisticRulesFactory");
+const DynamicRulesFactory = require("./services/NotifyRules/DynamicRulesFactory");
 
 //跑統計社 Cab8dc815286247966f63012fb4dd64e4
 //動態競爭 Cf62c1689b42440bd588d9b3eb063dd05
@@ -27,7 +26,7 @@ async function main() {
 async function sendMessageToStatisticClub(now) {
     let scheduledDate = await baseService.readDateList();
     scheduledDate = scheduledDate.split("\n");
-    let statics = StatisticRulesFactory(now);
+    let statics = new StatisticRulesFactory().create(now);
     let messages = statics.CheckNotifyDate(scheduledDate[0]);
     for (const m of messages) {
         if (typeof (m) === 'string' && m!=='False' && m !== 'True')
@@ -42,7 +41,7 @@ async function sendMessageToStatisticClub(now) {
 async function sendMessageToDynamicClub(now) {
     let scheduledDate = await baseService2.readDateList();
     scheduledDate = scheduledDate.split("\n");
-    let dynamic = DynamicRulesFactory(now);
+    let dynamic = new DynamicRulesFactory().create(now);
 
     let messages = dynamic.CheckNotifyDate(scheduledDate[0]);
     for (const m of messages) {
@@ -53,40 +52,6 @@ async function sendMessageToDynamicClub(now) {
             await dynamic.RemoveDataFromFile('./scheduleDynamicDate.txt', scheduledDate);
         }
     }
-
-}
-
-function StatisticRulesFactory(now) {
-    let today = now;
-    let statisticRule = [];
-    statisticRule.push(new StatisticClubRules.AuditMessage(today));
-    statisticRule.push(new StatisticClubRules.MarketingMessage(today));
-    statisticRule.push(new StatisticClubRules.ActivityMessage(today));
-    statisticRule.push(new StatisticClubRules.ActionMessage(today));
-    statisticRule.push(new StatisticClubRules.MeetingMarketingMessage(today));
-    statisticRule.push(new StatisticClubRules.MeetingFBMessage(today));
-    statisticRule.push(new StatisticClubRules.RetroMessage(today));
-    statisticRule.push(new StatisticClubRules.PostAuditMessage(today));
-    statisticRule.push(new StatisticClubRules.RemoveData(today));
-
-    return new NotificationRuleEngine(statisticRule);
-}
-
-function DynamicRulesFactory(now) {
-    let today = now;
-
-    let dynamicRule = [];
-    dynamicRule.push(new DynamicClubRules.AuditMessage(today));
-    dynamicRule.push(new DynamicClubRules.MarketingMessage(today));
-    dynamicRule.push(new DynamicClubRules.ActivityMessage(today));
-    dynamicRule.push(new DynamicClubRules.ActionMessage(today));
-    dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage(today));
-    dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
-    dynamicRule.push(new DynamicClubRules.RetroMessage(today));
-    dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
-    dynamicRule.push(new DynamicClubRules.RemoveData(today));
-
-    return new NotificationRuleEngine(dynamicRule);
 }
 
 
