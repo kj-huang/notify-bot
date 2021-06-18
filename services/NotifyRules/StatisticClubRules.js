@@ -121,7 +121,7 @@ class PostAuditMessage {
     }
 
     CheckNotifyDate(scheduledDate) {
-        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
+        let date = moment(scheduledDate).add(7, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
             return '提醒會員組虹秋稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群';
         }
@@ -136,7 +136,7 @@ class RemoveData {
     }
 
     CheckNotifyDate(scheduledDate) {
-        let date = moment(scheduledDate).add(14, 'days').tz("Asia/Taipei").format("YYYYMMDD");
+        let date = moment(scheduledDate).add(7, 'days').tz("Asia/Taipei").format("YYYYMMDD");
         if (date === this.today) {
             return "True";
         }

@@ -62,7 +62,7 @@ describe('Static Club Rules', function () {
         );
     });
     it('should have PostAudit Message', function () {
-        let result = StatisticRulesFactory('20210703', '20210619');
+        let result = StatisticRulesFactory('20210626', '20210619');
         expect(result.length).toBe(2);
         expect(result).toEqual(
             expect.arrayContaining(["提醒會員組虹秋稽核是否有加入大大社群，稽核對象為跑統計學術群、實務群及大大社群+偉豪學院及Python社群", "True"])
