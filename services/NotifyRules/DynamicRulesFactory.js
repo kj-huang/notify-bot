@@ -6,14 +6,12 @@ class DynamicRulesFactory {
         let today = now;
 
         let dynamicRule = [];
-        dynamicRule.push(new DynamicClubRules.AuditMessage(today));
         dynamicRule.push(new DynamicClubRules.MarketingMessage(today));
         dynamicRule.push(new DynamicClubRules.ActivityMessage(today));
         dynamicRule.push(new DynamicClubRules.ActionMessage(today));
         dynamicRule.push(new DynamicClubRules.MeetingMarketingMessage(today));
         dynamicRule.push(new DynamicClubRules.MeetingFBMessage(today));
         dynamicRule.push(new DynamicClubRules.RetroMessage(today));
-        dynamicRule.push(new DynamicClubRules.PostAuditMessage(today));
         dynamicRule.push(new DynamicClubRules.RemoveData(today));
 
         return new NotificationRuleEngine(dynamicRule);
