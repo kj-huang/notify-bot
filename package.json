@@ -16,7 +16,7 @@
     "express": "^4.16.4",
     "messaging-api-line": "^1.0.4",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.25",
+    "moment-timezone": "^0.5.35",
     "node-cron": "^2.0.3"
   },
   "devDependencies": {
